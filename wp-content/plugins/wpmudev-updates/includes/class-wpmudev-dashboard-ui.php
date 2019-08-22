@@ -1663,6 +1663,7 @@ class WPMUDEV_Dashboard_Ui {
 		$urls            = $this->page_urls;
 		$allowed_users   = WPMUDEV_Dashboard::$site->get_allowed_users();
 		$auto_update     = WPMUDEV_Dashboard::$site->get_option( 'autoupdate_dashboard' );
+		$enable_sso     = WPMUDEV_Dashboard::$site->get_option( 'enable_sso' );
 		$membership_type = WPMUDEV_Dashboard::$api->get_membership_type( $single_id );
 
 		/**
@@ -1670,7 +1671,7 @@ class WPMUDEV_Dashboard_Ui {
 		 */
 		do_action( 'wpmudev_dashboard_notice-settings' );
 
-		$this->load_sui_template( 'settings', compact( 'member', 'urls', 'allowed_users', 'auto_update', 'membership_type', $single_id ) );
+		$this->load_sui_template( 'settings', compact( 'member', 'urls', 'allowed_users', 'auto_update', 'enable_sso', 'membership_type', $single_id ) );
 	}
 
 	/**

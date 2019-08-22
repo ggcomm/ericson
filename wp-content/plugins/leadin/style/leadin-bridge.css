@@ -23,6 +23,8 @@ body.toplevel_page_leadin {
 }
 
 #leadin-iframe {
+  position: absolute;
+  top: 0;
   border: 0 none transparent !important;
   padding: 0 !important;
   height: 100% !important;
@@ -32,7 +34,6 @@ body.toplevel_page_leadin {
 .leadin-iframe-fullscreen {
   background-color: #fff;
   position: fixed !important;
-  top: 0px !important;
   left: 0px !important;
   z-index: 99999 !important;
 }
