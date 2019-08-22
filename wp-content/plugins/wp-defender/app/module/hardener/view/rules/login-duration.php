@@ -112,7 +112,7 @@ $days    = $controller->getService()->getDuration();
 <!--        </h3>-->
 <!--        <div class="well">-->
 <!--			--><?php
-//			$setting = \WP_Defender\Module\Hardener\Model\Settings::instance();	 									 	  	 	 		
+//			$setting = \WP_Defender\Module\Hardener\Model\Settings::instance();
 //
 //			if ( $controller->check() ):
 //				?>

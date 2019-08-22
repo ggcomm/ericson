@@ -206,6 +206,35 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 
 				</div>
 
+				<div class="sui-box-settings-row">
+
+					<div class="sui-box-settings-col-1">
+
+						<span class="sui-settings-label"><?php esc_html_e( 'Single Sign-on', 'wpmudev' ); ?></span>
+
+						<span class="sui-description"><?php esc_html_e( 'Tired of logging in to your WP Admin area? Enable this setting to be automatically logged in when you visit this site from The Hub.', 'wpmudev' ); ?></span>
+
+					</div>
+
+					<div class="sui-box-settings-col-2">
+
+						<label class="sui-toggle">
+							<input
+								type="checkbox"
+								name="enable_sso"
+								value="1"
+								id="enable_sso"
+								<?php checked( $enable_sso ); ?>
+							/>
+							<span class="sui-toggle-slider"></span>
+						</label>
+						<div class="enable_sso_label">
+							<label for="enable_sso"><?php esc_html_e( 'Enable Single Sign-on for this website', 'wpmudev' ); ?></label>
+							<div class="sui-notice"><p><?php printf( esc_html__( 'Note: You need to stay logged into %1$1s The Hub%2$2s to use this feature.', 'wpmudev' ), '<a href="https://premium.wpmudev.org/hub/my-websites/">', '</a>' ); ?></p></div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 			<div class="sui-box-footer">
