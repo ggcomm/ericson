@@ -16,6 +16,7 @@ export const onInitNavigation = createHandler('leadin_init_navigation');
 export const onPageReload = createHandler('leadin_page_reload');
 export const onUpgrade = createHandler('leadin_upgrade');
 export const onSyncRoute = createHandler('leadin_sync_route');
+export const onGetPortalInfo = createHandler('leadin_get_portal_info');
 
 export function changeRoute(route) {
   postMessage('leadin_change_route', route, null, () => location.reload(true));
@@ -31,4 +32,8 @@ export function searchForms(searchQuery = '', callback) {
 
 export function getForm(formId, callback) {
   postMessage('leadin_get_form', formId, callback);
+}
+
+export function sendEvent(eventName, eventProperty, callback) {
+  postMessage('leadin_track_event', { eventName, eventProperty }, callback);
 }

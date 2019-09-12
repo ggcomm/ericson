@@ -119,8 +119,14 @@ function leadin_get_signup_url() {
 	// Get attribution string.
 	$acquisition_option = get_option( 'hubspot_acquisition_attribution', '' );
 	parse_str( $acquisition_option, $signup_params );
-	$signup_params['enableCollectedForms'] = 'true';
-
+	$signup_params[ 'enableCollectedForms' ] = 'true';
+	$experiment_treatment_value = leadin_get_experiment_treatment( 'leadin_banner_experiment' , LEADIN_NEW_BANNER_GATE );
+	
+	if ( ! empty ( $_GET[ 'bannerClick' ] ) ) {
+		if ( LEADIN_NEW_BANNER_GATE ) {
+			$signup_params['utm_id'] = "wordpressPluginExperiment".($experiment_treatment_value==2?"Variant":"Control");
+		}
+	}
 	// Get leadin query.
 	$leadin_query = leadin_get_query_params();
 	parse_str( $leadin_query, $leadin_params );
@@ -239,6 +245,7 @@ function leadin_get_leadin_config() {
 		'pluginPath'          => constant( 'LEADIN_PATH' ),
 		'plugins'             => get_plugins(),
 		'portalId'            => get_option( 'leadin_portalId' ),
+		'portalDomain'        => get_option( 'leadin_portal_domain' ), 
 		'theme'               => get_option( 'stylesheet' ),
 		'wpVersion'           => leadin_parse_version( $wp_version ),
 	);

@@ -11,6 +11,7 @@ import {
   onEnterFullScreen,
   onExitFullScreen,
   onSyncRoute,
+  onGetPortalInfo,
 } from './api/hubspotPluginApi';
 import {
   connect,
@@ -22,10 +23,11 @@ import { adminUrl, theme } from './constants/leadinConfig';
 import { initNavigation, disableNavigation, syncRoute } from './navigation';
 import enterFullScreen, { exitFullScreen } from './fullscreen';
 import themes from './constants/themes';
+import { portalDomain, portalId } from './constants/leadinConfig';
 
-onConnect((portalId, reply) => {
+onConnect((portalInfo, reply) => {
   connect(
-    portalId,
+    portalInfo,
     () => {
       clearPortalIdPolling();
       reply({ success: true });
@@ -99,4 +101,8 @@ onExitFullScreen((message, reply) => {
 onSyncRoute((message, reply) => {
   syncRoute(message);
   reply();
+});
+
+onGetPortalInfo((message, reply) => {
+  reply({ portalDomain, portalId });
 });

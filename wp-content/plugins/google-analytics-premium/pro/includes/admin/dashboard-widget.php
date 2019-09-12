@@ -105,6 +105,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 			$this->widget_content_no_auth();
 		} else {
 			monsterinsights_settings_error_page( 'monsterinsights-dashboard-widget', '', '0' );
+			monsterinsights_settings_inline_js();
 		}
 
 	}
@@ -157,6 +158,8 @@ class MonsterInsights_Dashboard_Widget_Pro {
 					'wpforms_enabled'   => function_exists( 'wpforms' ),
 					'wpforms_installed' => $wpforms_installed,
 					'wpforms_url'       => $wp_forms_url,
+					'authed'            => true,
+					// They wouldn't see this either way if not authed. This is used in Reports.
 					// Used to add notices for future deprecations.
 					'versions'          => array(
 						'php_version'          => phpversion(),
@@ -269,12 +272,12 @@ class MonsterInsights_Dashboard_Widget_Pro {
 
 		$url = is_network_admin() ? network_admin_url( 'admin.php?page=monsterinsights_settings' ) : admin_url( 'admin.php?page=monsterinsights_settings' );
 		?>
-        <div class="mi-dw-not-authed">
-            <h2><?php esc_html_e( 'Reports are not available', 'ga-premium' ); ?></h2>
-            <p><?php esc_html_e( 'Please connect MonsterInsights to Google Analytics to see reports.', 'ga-premium' ); ?></p>
-            <a href="<?php echo esc_url( $url ); ?>"
-               class="mi-dw-btn-large"><?php esc_html_e( 'Configure MonsterInsights', 'ga-premium' ); ?></a>
-        </div>
+		<div class="mi-dw-not-authed">
+			<h2><?php esc_html_e( 'Analytics is not Setup', 'ga-premium' ); ?></h2>
+			<p><?php esc_html_e( 'Please connect MonsterInsights to Google Analytics to see reports.', 'ga-premium' ); ?></p>
+			<a href="<?php echo esc_url( $url ); ?>"
+			   class="mi-dw-btn-large"><?php esc_html_e( 'Configure MonsterInsights', 'ga-premium' ); ?></a>
+		</div>
 		<?php
 	}
 }
