@@ -76,11 +76,11 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/addons/components/AddonBlock.vue:105
 	__( 'Installing...', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:51
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:51
+	// Reference: src/modules/addons/components/AddonBlock.vue:108
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:52
 	__( 'Deactivate', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/OnboardingAddon-Pro.vue:32
+	// Reference: src/modules/addons/components/AddonBlock.vue:111
 	__( 'Activate', 'ga-premium' ),
 
 	// Reference: src/modules/addons/components/AddonBlock.vue:113
@@ -92,7 +92,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/addons/components/AddonBlock.vue:80
 	__( 'Not Installed', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:131
+	// Reference: src/modules/addons/components/AddonBlock.vue:83
 	__( 'Not Available', 'ga-premium' ),
 
 	// Reference: src/modules/addons/components/AddonBlock.vue:86
@@ -131,7 +131,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/auth/api/index.js:114
 	__( 'Can\'t deauthenticate. Error: %s, %s', 'ga-premium' ),
 
-	// Reference: src/modules/license/api/index.js:139
+	// Reference: src/modules/settings/api/index.js:22
 	__( 'You appear to be offline.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/api/index.js:48
@@ -194,59 +194,59 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/ReportsDatePicker.vue:67
 	__( 'Set Custom Date Range', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:75
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:36
 	__( 'Overview', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/ReportsNavigation.vue:32
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:37
 	__( 'Publishers', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/ReportsNavigation.vue:33
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:38
 	__( 'eCommerce', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportSearchConsole-Pro.vue:51
 	__( 'Search Console', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/ReportsNavigation.vue:35
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:40
 	__( 'Dimensions', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/ReportsNavigation.vue:36
-	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:58
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:41
 	__( 'Forms', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/ReportsNavigation.vue:42
 	__( 'Real Time', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportDimensions-Pro.vue:32
 	// Reference: src/modules/reports/routes/index.js:54
 	__( 'Dimensions Report', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportDimensions-Pro.vue:33
 	__( 'View %s Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:239
+	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:27
+	// Reference: src/modules/reports/components/reports/ReportDimensions-Pro.vue:67
 	__( 'Pageviews', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:237
-	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:27
+	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:26
+	// Reference: src/modules/reports/components/reports/ReportDimensions-Pro.vue:69
 	__( 'Sessions', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:101
+	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:25
 	__( 'Time to Purchase', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:22
-	// Reference: src/modules/widget/store/index.js:108
 	__( 'Sessions to Purchase', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportSearchConsole-Pro.vue:48
-	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:23
 	__( 'No data for this time period.', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:31
 	__( 'Days', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:28
+	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:32
+	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:40
 	__( 'Transactions', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:29
+	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:33
 	__( '% of Total', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:43
@@ -261,30 +261,28 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:46
 	__( 'The average amount of the orders placed on your website.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:82
+	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:26
 	__( 'This list shows the top selling products on your website.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:89
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:29
 	__( 'This list shows the top referral websites in terms of product revenue.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:137
+	// Reference: src/modules/widget/components/reports/WidgetReportAddRemove.vue:31
 	__( 'The number of times products on your site were added to the cart.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:138
+	// Reference: src/modules/widget/components/reports/WidgetReportAddRemove.vue:32
 	__( 'The number of times products on your site were removed from the cart.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:102
+	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:29
 	__( 'This list shows how many days from first visit it took users to purchase products from your site.', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportSessions.vue:25
-	// Reference: src/modules/widget/store/index.js:109
 	__( 'This list shows the number of sessions it took users before they purchased a product from your website.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:141
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:27
 	__( 'View Full Top Products Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:142
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:28
 	__( 'View Top Conversions Sources Report', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:28
@@ -296,60 +294,54 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/routes/index.js:38
 	__( 'eCommerce Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:63
+	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:39
 	__( 'Conversion Rate', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:42
 	__( 'Avg. Order Value', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:81
+	// Reference: src/modules/widget/components/reports/WidgetReportDays.vue:26
 	__( 'Top Products', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:101
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:25
 	__( 'No product sales tracked during this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:103
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:29
 	__( 'Product Name', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:104
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:30
 	__( 'Quantity', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:105
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:31
 	__( '% of Sales', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:106
 	// Reference: src/modules/widget/components/reports/WidgetReportTopProducts.vue:32
 	__( 'Total Revenue', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:88
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:26
 	__( 'Top Conversion Sources', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:109
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:27
 	__( 'No conversion sources tracked during this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:111
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:31
 	__( 'Sources', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:100
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:32
 	__( 'Visits', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:113
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:33
 	__( '% of Visits', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportEcommerceOverview.vue:41
+	// Reference: src/modules/widget/components/reports/WidgetReportTopConversions.vue:34
 	__( 'Revenue', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:116
+	// Reference: src/modules/widget/components/reports/WidgetReportAddRemove.vue:29
 	__( 'Total Add to Carts', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportEcommerce-Pro.vue:117
+	// Reference: src/modules/widget/components/reports/WidgetReportAddRemove.vue:30
 	__( 'Total Removed from Cart', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:57
 	// Reference: src/modules/reports/routes/index.js:62
 	__( 'Forms Report', 'ga-premium' ),
 
@@ -360,6 +352,7 @@ $generated_i18n_strings = array(
 	__( 'Impressions', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:62
+	// Reference: src/modules/settings/routes/site.js:61
 	__( 'Conversions', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:65
@@ -371,47 +364,41 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/reports/ReportForms-Pro.vue:67
 	__( 'View Full Forms Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:147
+	// Reference: src/modules/widget/components/reports/WidgetReportNewVsReturning.vue:42
 	__( 'New', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:148
+	// Reference: src/modules/widget/components/reports/WidgetReportNewVsReturning.vue:43
 	__( 'Returning', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:178
 	// Reference: src/modules/widget/components/reports/WidgetReportDevices.vue:47
 	__( 'Desktop', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:179
 	// Reference: src/modules/widget/components/reports/WidgetReportDevices.vue:48
 	__( 'Tablet', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:180
 	// Reference: src/modules/widget/components/reports/WidgetReportDevices.vue:49
 	__( 'Mobile', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:236
-	// Reference: src/modules/widget/store/index.js:13
+	// Reference: src/modules/reports/routes/index.js:22
 	__( 'Overview Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:238
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:84
 	__( 'Unique %s Sessions', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:240
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:86
 	__( 'Unique %s Pageviews', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:241
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:91
 	__( 'Avg. Session Duration', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:242
+	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:29
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:24
 	__( 'Bounce Rate', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:243
-	// Reference: src/modules/widget/store/index.js:26
+	// Reference: src/modules/widget/components/reports/WidgetReportNewVsReturning.vue:14
 	__( 'New vs. Returning Visitors', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:244
 	// Reference: src/modules/widget/components/reports/WidgetReportDevices.vue:16
-	// Reference: src/modules/widget/store/index.js:33
 	__( 'Device Breakdown', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:245
@@ -426,32 +413,28 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:248
 	__( 'View All Referral Sources', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:249
-	// Reference: src/modules/widget/store/index.js:19
+	// Reference: src/modules/widget/components/reports/WidgetReportTopPosts.vue:19
 	__( 'Top Posts/Pages', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:250
+	// Reference: src/modules/widget/components/reports/WidgetReportTopPosts.vue:18
 	__( 'View Full Posts/Pages Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:252
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:87
 	__( 'A session is the browsing session of a single user to your site.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:253
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:88
 	__( 'A pageview is defined as a view of a page on your site that is being tracked by the Analytics tracking code. Each refresh of a page is also a new pageview.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:254
+	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:89
 	__( 'Total duration of all sessions (in seconds) / number of sessions.', 'ga-premium' ),
 
 	// Reference: src/modules/widget/components/reports/WidgetReportOverview.vue:90
 	__( 'Percentage of single page visits (or web sessions). It is the number of visits in which a person leaves your website from the landing page without browsing any further.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:256
-	// Reference: src/modules/widget/store/index.js:27
+	// Reference: src/modules/widget/components/reports/WidgetReportNewVsReturning.vue:15
 	__( 'This graph shows what percent of your user sessions come from new versus repeat visitors.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:257
 	// Reference: src/modules/widget/components/reports/WidgetReportDevices.vue:17
-	// Reference: src/modules/widget/store/index.js:34
 	__( 'This graph shows what percent of your visitor sessions are done using a traditional computer or laptop, tablet or mobile device to view your site.', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:258
@@ -460,124 +443,137 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:259
 	__( 'This list shows the top websites that send your website traffic, known as "referral traffic".', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportOverview.vue:260
-	// Reference: src/modules/widget/store/index.js:20
+	// Reference: src/modules/widget/components/reports/WidgetReportTopPosts.vue:20
 	__( 'This list shows the most viewed posts and pages on your website.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:126
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:127
 	__( 'No download link clicks detected for this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:128
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:129
 	__( 'Link Label', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportSearchConsole-Pro.vue:43
 	__( 'Clicks', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:131
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:132
 	__( 'Interests', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:133
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:134
 	__( 'Categories', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:134
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:135
 	__( '% of Interest', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:136
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:137
 	__( 'No interest groups detected for this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:137
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:138
 	__( 'This list shows the interest groups your visitors belong to.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:138
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:139
 	__( 'View Full Interests Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:139
+	// Reference: src/modules/widget/components/reports/WidgetReportLandingPages.vue:25
 	__( 'View Full Top Landing Pages Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:140
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:26
 	__( 'View Full Top Exit Pages Report', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportOutboundLinks.vue:25
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:142
 	__( 'View All Outbound Links Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:142
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:143
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:27
 	__( 'View All Affiliate Links Report', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:143
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:144
 	__( 'View All Download Links Report', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:41
+	// Reference: src/modules/widget/components/reports/WidgetReportLandingPages.vue:27
 	__( 'This list shows the top pages users first land on when visiting your website.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:48
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:28
 	__( 'This list shows the top pages users exit your website from.', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:147
 	// Reference: src/modules/widget/store/index.js:55
 	__( 'This list shows the top links clicked on your website that go to another website.', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:148
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:30
 	// Reference: src/modules/widget/store/index.js:62
 	__( 'This list shows the top affiliate links your visitors clicked on.', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:149
 	// Reference: src/modules/widget/store/index.js:69
 	__( 'This list shows the download links your visitors clicked the most.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:149
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:150
 	__( 'Age', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:150
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:151
 	__( 'This graph shows what percent of your users are in a particular age group.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:151
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:152
 	__( 'Gender', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:152
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:153
 	__( 'This graph shows the gender breakdown of your website visitors.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:40
+	// Reference: src/modules/widget/components/reports/WidgetReportLandingPages.vue:24
 	__( 'Top Landing Pages', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:97
+	// Reference: src/modules/widget/components/reports/WidgetReportLandingPages.vue:26
 	__( 'No landing pages tracked during this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:101
+	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:28
 	__( 'Avg. Duration', 'ga-premium' ),
 
-	// Reference: src/modules/widget/store/index.js:47
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:25
 	__( 'Top Exit Pages', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:105
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:27
 	__( 'No exit pages tracked during this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:107
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:30
 	__( 'Page Titles', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:108
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:29
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:31
 	__( 'Exits', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:109
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:26
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:32
 	__( 'Page Views', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:110
+	// Reference: src/modules/widget/components/reports/WidgetReportExitPages.vue:33
 	__( '% of Exits', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:113
 	// Reference: src/modules/widget/store/index.js:54
 	__( 'Top Outbound Links', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportOutboundLinks.vue:27
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:114
 	__( 'No outbound link clicks detected for this time period.', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:119
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:28
 	// Reference: src/modules/widget/store/index.js:61
 	__( 'Top Affiliate Links', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:119
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:120
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:29
 	__( 'No affiliate link clicks detected for this time period.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportOutboundLinks.vue:30
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:116
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:32
 	__( 'Links', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/reports/WidgetReportOutboundLinks.vue:31
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:124
+	// Reference: src/modules/widget/components/reports/WidgetReportAffiliateLinks.vue:33
 	__( 'Total Clicks', 'ga-premium' ),
 
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:126
 	// Reference: src/modules/widget/store/index.js:68
 	__( 'Top Download Links', 'ga-premium' ),
 
@@ -702,6 +698,7 @@ $generated_i18n_strings = array(
 	__( 'The Real-Time Report automatically paused due to inactivity. Please refresh the page to resume the Real-Time Report.', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportSearchConsole-Pro.vue:39
+	// Reference: src/modules/reports/routes/index.js:46
 	__( 'Search Console Report', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportSearchConsole-Pro.vue:40
@@ -728,25 +725,22 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/SettingsAddonDisabled.vue:21
 	__( 'In order to use these features, please ask your webmaster to install the necessary addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/SettingsButtonSave.vue:33
+	// Reference: src/modules/settings/components/SettingsButtonSave.vue:46
 	__( 'Save Changes', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/SettingsNetwork.vue:33
-	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingLicense-Pro.vue:39
 	__( 'License Key', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:53
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:54
 	__( 'Add your MonsterInsights license key from the email receipt or account area. %sRetrieve your license key%s.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/SettingsNetwork.vue:35
 	__( 'Google Authentication', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/SettingsNetwork.vue:36
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepAuthenticate.vue:28
 	__( 'Connect Google Analytics + WordPress', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/SettingsNetwork.vue:37
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepAuthenticate.vue:29
 	__( 'You will be taken to the MonsterInsights website where you\'ll need to connect your Analytics account.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-advanced/SettingsInputMisc-Pro.vue:24
@@ -759,6 +753,7 @@ $generated_i18n_strings = array(
 	__( 'Hide Announcements', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/SettingsInputNumber.vue:50
+	// Reference: src/modules/settings/components/input/SettingsInputText.vue:42
 	__( 'Reset to default', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/SettingsInputNumber.vue:51
@@ -770,7 +765,6 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:38
 	__( 'Add Another Link Path', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:39
 	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:49
 	__( 'Remove row', 'ga-premium' ),
 
@@ -801,10 +795,10 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/input/tab-advanced/SettingsInputPerformance-Pro.vue:30
 	__( 'In order to use the performance tracking features, please %sinstall and activate%s the performance addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:143
+	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:174
 	__( 'Each dimension needs to have an id set.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:147
+	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:178
 	__( 'The custom dimension IDs must be unique for each dimension.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputDimensions.vue:48
@@ -917,41 +911,37 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:121
 	__( 'Re-Authenticating', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:187
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:188
 	__( 'Verifying Credentials', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:202
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:203
 	__( 'Your site is connected to MonsterInsights!', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:223
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:224
 	__( 'Deauthenticating', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:241
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:242
 	__( 'You\'ve disconnected your site from MonsterInsights. Your site is no longer being tracked by Google Analytics and you won\'t see reports anymore.', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/WidgetReportError.vue:25
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:136
 	__( 'Error', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:209
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:189
-	// Reference: src/modules/tools/components/ToolsTabImportExport.vue:88
-	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:138
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:217
 	__( 'Ok', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:46
 	__( 'Connect MonsterInsights', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:67
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:68
 	__( 'Verify Credentials', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:47
 	__( 'Reconnect MonsterInsights', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:69
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:70
 	__( 'Website Profile', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:70
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:71
 	__( 'Active Profile', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:50
@@ -960,47 +950,40 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:51
 	__( 'If you would like to use a different profile for this subsite, you can authenticate below.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:73
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:74
 	__( 'Manually enter your UA code', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:70
 	__( 'Warning: If you use a manual UA code, you won\'t be able to use the reports.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:86
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:87
 	__( 'Force Deauthenticate', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:86
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:87
 	__( 'Disconnect MonsterInsights', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/inputs/OnboardingAuthenticate-Pro.vue:73
 	__( 'A license key is needed before connecting to MonsterInsights.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:113
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:101
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:121
 	__( 'Verifying License', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:135
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:121
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:143
 	__( 'There was an error verifying your license', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:149
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:134
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:157
 	__( 'Refreshing License', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:171
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:154
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:179
 	__( 'There was an error refreshing your license', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:185
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:167
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:193
 	__( 'Deactivating License', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:199
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:180
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:207
 	__( 'Success', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:207
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:187
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:215
 	__( 'There was an error deactivating your license', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:44
@@ -1013,25 +996,21 @@ $generated_i18n_strings = array(
 	__( 'No license key activated on this subsite', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:47
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:48
 	__( 'Your license key type for this site is %s. ', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:48
 	__( 'Refresh Key', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:49
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:53
 	__( 'Click refresh if your license has been upgraded or the type is incorrect.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:50
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:50
 	__( 'Verify', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:52
-	// Reference: src/modules/settings/components/network/SettingsInputLicenseNetwork-Pro.vue:52
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:53
 	__( 'Paste your license key here', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:54
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:55
 	__( 'The license key is used to enable updates for MonsterInsights Pro and addons, as well enable the ability to view reports. Deactivate your license if you want to use it on another WordPress site.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/input/tab-publisher/SettingsInputAds-Pro.vue:32
@@ -1103,7 +1082,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:56
 	__( 'Users that have at least one of these roles will be able to view the reports.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:57
+	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:86
 	__( 'Users that have at least one of these roles will be able to view the reports, along with any user with the manage_options capability.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:58
@@ -1133,7 +1112,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:67
 	__( 'Reports', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:65
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:65
 	__( 'Automatic Updates', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:69
@@ -1148,124 +1127,124 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:82
 	__( 'Disabled %s- Hide reports and dashboard widget.%s', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:50
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:50
 	__( 'Yes (recommended) %s- Get the latest features, bugfixes, and security updates as they are released.%s', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:54
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:54
 	__( 'Minor only %s- Get bugfixes and security updates, but not major features.%s', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:58
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:58
 	__( 'None %s- Manually update everything.%s', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:100
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:113
 	__( 'Google Optimize Async Page Hide', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:101
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:114
 	__( 'Automatically output the page-hiding snippet which reduces the risk of page flicker.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:102
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:115
 	__( 'Enable Google Optimize Async Page Hide', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:103
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:116
 	__( 'We recommend that you also use this feature to automatically output the page-hiding snippet which reduces the risk of page flicker. This feature also helps ensure that users on slow connections have a better experience by only showing experiment variants when the Optimize container loads within the set timeout (which you can configure below).', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:104
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:117
 	__( 'Maximum Time to Hide Page', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:105
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:118
 	__( 'The maximum time (in milliseconds) the page will be hidden.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:106
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:119
 	__( 'The maximum time (in milliseconds) the page will be hidden if using the Google Optimize Async Page Hide feature directly above. Once Optimize is ready or this maximum time is reached (whichever comes first) the page will become visible again. Default: 4000.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:107
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:120
 	__( 'Visit our knowledge base to learn %show to setup%s and %show to use%s custom dimensions in Google Analytics.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:108
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:121
 	__( 'You need to install %sWordPress SEO by Yoast%s to be able to use the %sSEO Score%s and %sFocus Keyword%s custom dimensions. If you\'re already running another SEO plugin, WordPress SEO can import its meta data.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:109
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:122
 	__( 'Author Tracking and User ID tracking have been disabled because the EU Compliance addon is active.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:110
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:123
 	__( 'SEO Score and Focus Keyword dimensions have been disabled because WordPress SEO by Yoast is not active.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:112
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:125
 	__( 'Deactivate Forms addon to disable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:113
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:126
 	__( 'Deactivate WPForms to disable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:114
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:127
 	__( 'Deactivate Gravity Forms to disable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:115
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:128
 	__( 'Deactivate Formidable Forms to disable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:116
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:129
 	__( 'Forms are tracked by default with the Forms addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:117
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:130
 	__( 'Activate Forms addon to enable forms tracking.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:118
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:131
 	__( 'Activate WPForms to enable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:119
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:132
 	__( 'Activate Gravity Forms to enable', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:120
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:133
 	__( 'Activate Formidable Forms to enable', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:94
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:96
 	__( 'Forms Tracking', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:84
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:97
 	__( 'Google Optimize', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:128
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:98
 	__( 'Custom Dimensions', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:86
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:99
 	__( 'In order to use the forms tracking features, please %sinstall and activate%s the forms addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:87
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:100
 	__( 'In order to use the Google Optimize features, please %sinstall and activate%s the Google Optimize addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:88
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:101
 	__( 'In order to use the Custom Dimensions features, please %sinstall and activate%s the dimensions addon.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:89
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:102
 	__( 'Track Form Conversion in Google Analytics', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:90
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:103
 	__( 'Form impressions and conversions are being logged for visitors to your site. No configuration is required.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:91
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:104
 	__( 'Enable Form Conversion Tracking', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:92
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:105
 	__( 'WPForms', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:93
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:106
 	__( 'Gravity Forms', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:94
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:107
 	__( 'Formidable Forms', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:95
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:108
 	__( '%s is not available', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:96
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:109
 	__( 'Miscellaneous WordPress Forms', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:97
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:110
 	__( 'Google Optimize Container ID', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:98
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:111
 	__( 'This should be in the format GTM-XXXXXX', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:99
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:112
 	__( 'Visit our knowledge base to learn how to %sset up Google Optimize%s in Google Analytics. %s You\'ll need to have set up a Google Optimize account. If you run into any issues, please see our %stroubleshooting guide%s on the most common errors.', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:86
@@ -1385,25 +1364,25 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/tabs/SettingsTabEngagement.vue:77
 	__( 'Do not use this feature if you use FeedBurner, as FeedBurner can do this automatically and better than this plugin can. Check this %shelp page%s for info on how to enable this feature in FeedBurner.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:66
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:66
 	__( 'Setup Wizard', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:67
+	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral-Pro.vue:67
 	__( 'Use our configuration wizard to properly setup Google Analytics with WordPress (with just a few clicks).', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabGeneral.vue:68
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:24
 	__( 'Launch Setup Wizard', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:70
+	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:41
 	__( 'Path (example: %s)', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:72
+	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:43
 	__( 'Path has to start with a / and have no spaces', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:76
+	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:47
 	__( 'Label (example: %s)', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:78
+	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:49
 	__( 'Label can\'t contain any spaces', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:52
@@ -1415,19 +1394,15 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/tabs/SettingsTabPublisher.vue:54
 	__( 'Our affiliate link tracking works by setting path for internal links to track as outbound links.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabsNavigation.vue:55
 	// Reference: src/modules/settings/routes/site.js:29
 	__( 'General', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabsNavigation.vue:56
 	// Reference: src/modules/settings/routes/site.js:37
 	__( 'Engagement', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabsNavigation.vue:58
 	// Reference: src/modules/settings/routes/site.js:53
 	__( 'Publisher', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabsNavigation.vue:60
 	// Reference: src/modules/settings/routes/site.js:69
 	__( 'Advanced', 'ga-premium' ),
 
@@ -1598,7 +1573,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/wizard-onboarding/api/index.js:17
 	__( 'Can\'t load errors. Error: %s, %s', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/OnboardingAddon-Pro.vue:29
+	// Reference: src/modules/widget/components/WidgetFooter.vue:21
 	__( 'Learn More', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/OnboardingAddon-Pro.vue:30
@@ -1643,7 +1618,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedAddons-Pro.vue:48
 	__( 'View all MonsterInsights addons', 'ga-premium' ),
 
-	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:87
+	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedAddons-Pro.vue:49
 	__( 'Save and continue', 'ga-premium' ),
 
 	// Reference: src/modules/wizard-onboarding/components/steps/OnboardingStepRecommendedSettings.vue:53
@@ -1796,16 +1771,16 @@ $generated_i18n_strings = array(
 	// Reference: src/plugins/monsterinsights-reports-helper-plugin.js:148
 	__( 'Please try again.', 'ga-premium' ),
 
-	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:17
+	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:18
 	__( 'Saving Changes...', 'ga-premium' ),
 
-	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:46
+	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:47
 	__( 'Settings Updated', 'ga-premium' ),
 
-	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:80
+	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:81
 	__( 'Could Not Save Changes', 'ga-premium' ),
 
-	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:102
+	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:103
 	__( 'Loading Settings', 'ga-premium' ),
 
 	// Reference: src/plugins/monsterinsights-wizard-helper-plugin.js:13
@@ -1832,7 +1807,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:252
 	__( 'Upgrade to MonsterInsights Pro and Save 50% OFF!%s', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/upsells/ReportUpsellOverlay.vue:28
+	// Reference: src/modules/reports/components/reports-overview/ReportOverviewUpsell-Pro.vue:30
 	__( 'Upgrade to MonsterInsights Pro', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports-overview/ReportOverviewUpsell-Pro.vue:28
@@ -1876,7 +1851,7 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/upsells/ReportUpsellOverlay.vue:34
 	__( '%sDo you you want to access to %s reporting right now in your WordPress Dashboard?%s That comes with %s level of our paid packages. To get instant access, you\'ll want to buy a MonsterInsights licence, which also gives you access to powerful addons, expanded reporting (including the ability to use custom date ranges), comprehensive tracking features (like UserID tracking) and access to our world-class support team.', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/ReportsNavigation.vue:37
+	// Reference: src/modules/reports/components/ReportsNavigation.vue:42
 	__( 'Real-Time', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports-overview/ReportOverviewUpsell-Pro.vue:30
@@ -2026,10 +2001,10 @@ $generated_i18n_strings = array(
 	// Reference: src/plugins/monsterinsights-reports-helper-plugin.js:236
 	__( 'Get Fresh Reports Data Every 60 Seconds', 'ga-premium' ),
 
-	// Reference: src/modules/settings/site.vue:62
+	// Reference: src/modules/settings/site.vue:74
 	__( 'Congratulations! ', 'ga-premium' ),
 
-	// Reference: src/modules/settings/site.vue:63
+	// Reference: src/modules/settings/site.vue:75
 	__( 'You Successfully Unlocked the most powerful Analytics plugin', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutNavigation-Pro.vue:16
@@ -2039,7 +2014,6 @@ $generated_i18n_strings = array(
 	__( 'Getting Started', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutNavigation-Pro.vue:18
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:52
 	__( 'Lite vs Pro', 'ga-premium' ),
 
 	// Reference: src/modules/frontend/frontend.vue:29
@@ -2054,25 +2028,25 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/widget/components/WidgetFooter.vue:18
 	__( 'Recommended Plugin: %s', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:133
+	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:132
 	__( 'It looks like you added a Google Analytics tracking code in the custom code area, this can potentially prevent proper tracking. If you want to use a manual UA please use the setting in the %sGeneral%s tab.', 'ga-premium' ),
 
 	// Reference: src/modules/settings/components/tabs/SettingsTabAdvanced.vue:70
 	__( 'Hide Admin Bar Reports', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:121
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:122
 	__( 'Label', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:122
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:123
 	__( 'Link', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:153
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:154
 	__( 'Scroll', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:154
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:155
 	__( 'Average Scroll Depth', 'ga-premium' ),
 
-	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:155
+	// Reference: src/modules/reports/components/reports/ReportPublishers-Pro.vue:156
 	__( 'Scroll Depth events are triggered at 25%%, 50%%, 75%% and 100%% scrolling. The number above represents the average scroll depth from your visitors in the selected interval for all your website\'s pages. You can read more about how to read this number in our %sknowledge base%s.', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:255
@@ -2081,94 +2055,94 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/reports/components/reports/ReportOverview.vue:259
 	__( 'This list shows the top websites that send your website traffic, known as referral traffic.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:101
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:102
 	__( 'GDPR Guide', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:102
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:103
 	__( 'Compliance with European data laws including GDPR can be confusing and time-consuming. In order to help MonsterInsights users comply with these laws, we’ve created an addon that automates a lot of the necessary configuration changes for you. ', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:107
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:108
 	__( 'How to install and activate MonsterInsights addons', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:108
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:109
 	__( 'The process for installing and activating addons is quick and easy after you install the MonsterInsights plugin. In this guide we’ll walk you through the process, step by step.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:113
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:114
 	__( 'Enabling eCommerce Tracking and Reports', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:114
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:115
 	__( 'Want to track your eCommerce sales data for your WooCommerce, MemberPress, or Easy Digital Downloads store with MonsterInsights? In this guide, we’ll show you how to enable eCommerce tracking in Google Analytics in just a few clicks.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:118
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:119
 	__( 'Read Documentation', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:63
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:64
 	__( 'Getting Started with MonsterInsights', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:64
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:65
 	__( 'MonsterInsights is the easiest analytics solution on the market to get started with, as we walk you through exactly what you need to do, in plain english, using our 3 minute setup wizard.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:65
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:66
 	__( 'To begin with, we’ll get your site authorized with Google Analytics, so we can start tracking and generating reports for you right away.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:66
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:67
 	__( 'In no time at all, and after just a few clicks, you\'ll have setup the most powerful Google Analytics tracking available for WordPress. It\'s easy to double your traffic and sales when you know exactly how people find and use your website. Let\'s get started!.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:67
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:68
 	__( 'Launch the wizard!', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:68
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:69
 	__( 'Get MonsterInsights Pro and Unlock all the Powerful Features', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:69
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:70
 	__( 'Thanks for being a loyal MonsterInsights Lite user. %sUpgrade to MonsterInsights Pro%s to unlock all the awesome features and experience why MonsterInsights is consistently rated the best Google Analytics solution for WordPress.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:71
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:72
 	__( 'Universal Tracking across devices and campaigns with just a few clicks.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:72
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:73
 	__( 'See your website analytics reports inside the WordPress dashboard', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:73
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:74
 	__( 'Get real-time stats right inside WordPress', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:74
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:75
 	__( '1-click Google Analytics Enhanced Ecommerce tracking', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:75
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:76
 	__( 'Get detailed stats for each post and page.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:78
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:79
 	__( 'Automatically track clicks on your affiliate links and ads.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:79
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:80
 	__( 'Make Google Analytics GDPR compliant automatically', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:80
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:81
 	__( 'Setup tracking for authors, categories, tags, custom post types, users and more', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:81
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:82
 	__( 'Enable Google Optimize for A/B testing, adjust sample speed & sample rate.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:82
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:83
 	__( 'More advanced features', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:57
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:85
 	__( 'Get MonsterInsights Pro Today and Unlock all the Powerful Features', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:58
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:86
 	__( 'Bonus: MonsterInsights Lite users get %s50%% off regular price%s, automatically applied at checkout.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:89
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:90
 	__( 'How to Connect to Google Analytics', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:90
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:91
 	__( 'After you install MonsterInsights, you’ll need to connect your WordPress site with your Google Analytics account. MonsterInsights makes the process easy, with no coding required.', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:95
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:96
 	__( 'Guide and Checklist for Advanced Insights', 'ga-premium' ),
 
-	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:96
+	// Reference: src/modules/about/components/AboutTabGettingStarted.vue:97
 	__( 'Our goal is to make it as easy as possible for you to measure and track your stats so you can grow your business. This easy-to-follow guide and checklist will get you set up with MonsterInsights’ advanced tracking.', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:102
@@ -2238,6 +2212,7 @@ $generated_i18n_strings = array(
 	__( 'Pro', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:61
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:88
 	__( 'Universal Tracking', 'ga-premium' ),
 
 	// Reference: src/modules/about/components/AboutTabLiteVsPro.vue:63
@@ -2351,19 +2326,19 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/widget/components/settings/WidgetSettingsInterval.vue:28
 	__( 'Last %s days', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:74
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:75
 	__( 'Warning: If you use a manual UA code, you won\'t be able to use any of the reporting and some of the tracking features. Your UA code should look like UA-XXXXXX-XX where the X\'s are numbers.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:75
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputAuthenticate-Pro.vue:76
 	__( 'Or manually enter UA code (limited functionality)', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:60
+	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:63
 	__( 'Show Overview Reports', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:61
+	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:64
 	__( 'Show Publishers Reports', 'ga-premium' ),
 
-	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:62
+	// Reference: src/modules/widget/components/settings/WidgetSettingsReports.vue:65
 	__( 'Show eCommerce Reports', 'ga-premium' ),
 
 	// Reference: src/modules/reports/components/ReportsDatePicker.vue:67
@@ -2384,28 +2359,29 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/settings/components/input/tab-engagement/SettingsInputScroll-Pro.vue:18
 	__( 'Using Scrolling Depth you can see how far, on average, visitors scroll down your website\'s pages', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:101
+	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:129
 	__( '%s can\'t be empty.', 'ga-premium' ),
 
-	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:122
+	// Reference: src/modules/settings/components/input/SettingsInputRepeater.vue:150
 	__( 'Duplicate values are not allowed.', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:22
+	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:24
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:23
 	__( 'Last 30 Days Insights for:', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:24
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:25
 	__( 'Entrances', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:26
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:27
 	__( 'Time on Page', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:27
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:28
 	__( 'Page Load Time', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:29
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:30
 	__( 'Last 30 Days', 'ga-premium' ),
 
-	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:30
+	// Reference: src/modules/frontend/components/FrontendStatsPageInsights.vue:31
 	__( 'Yesterday', 'ga-premium' ),
 
 	// Reference: src/modules/frontend/components/FrontendStatsGeneral.vue:25
@@ -2441,7 +2417,172 @@ $generated_i18n_strings = array(
 	// Reference: src/modules/addons/api/index.js:186
 	__( 'You appear to be offline. Plugin not installed.', 'ga-premium' ),
 
-	// Reference: src/modules/license/api/index.js:135
-	__( 'Can\'t upgrade to PRO please try again. Error: %s, %s', 'ga-premium' )
+	// Reference: src/modules/license/api/index.js:136
+	__( 'Can\'t upgrade to PRO please try again. Error: %s, %s', 'ga-premium' ),
+
+	// Reference: src/modules/about/components/AboutTabAboutUs.vue:35
+	__( 'Yup, we know a thing or two about building awesome products that customers love.', 'ga-premium' ),
+
+	// Reference: src/modules/auth/store/actions.js:49
+	__( 'Your website is not connected to Google Analytics and no data is being tracked. Please click the "Connect MonsterInsights" button below to get started.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/api/index.js:26
+	__( '`You appear to be offline.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:23
+	__( 'You must authenticate with MonsterInsights before you can view reports.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:24
+	__( 'Authenticate now', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:25
+	__( 'Connecting MonsterInsights only takes a few seconds and allows MonsterInsights to create reports for your website.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:24
+	__( 'Add license now', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportReAuth.vue:21
+	__( 'MonsterInsights encountered an error loading your report data', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportReAuth.vue:22
+	__( 'There is an issue with your Google Account authentication. Please use the button below to fix it by re-authenticating.', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/input/tab-general/SettingsInputLicenseSite.vue:51
+	__( 'Change Key', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/tabs/SettingsTabsNavigation.vue:74
+	__( 'Please Connect MonsterInsights below first', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:108
+	__( 'Page Level Analytics', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:109
+	__( 'Get detailed stats for each post and page, so you can see the most popular posts, pages, and sections of your site.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:113
+	__( 'Affiliate Link & Ads Tracking', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:114
+	__( 'Automatically track clicks on your affiliate links, banner ads, and other outbound links with our link tracking.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:118
+	__( 'EU Compliance (GDPR Friendly)', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:119
+	__( 'Make Google Analytics compliant with GDPR and other privacy regulations automatically.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:124
+	__( 'Setup tracking for authors, categories, tags, searches, custom post types, users, and other events with 1-click.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:73
+	__( 'Welcome to MonsterInsights', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:74
+	__( 'Thank you for choosing MonsterInsights - The Most Powerful WordPress Analytics Plugin', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:75
+	__( 'MonsterInsights makes it “effortless” to setup Google Analytics in WordPress, the RIGHT Way. You can watch the video tutorial or use our 3 minute setup wizard.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:76
+	__( 'Launch the Wizard!', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:77
+	__( 'Read the Full Guide', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:78
+	__( 'MonsterInsights Features & Addons', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:79
+	__( 'Here are the features that make MonsterInsights the most powerful and user-friendly WordPress analytics plugin in the market.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:80
+	__( 'See All Features', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:82
+	__( 'per year', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:84
+	__( 'Testimonials', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:89
+	__( 'Setup universal website tracking across devices and campaigns with just a few clicks (without any code).', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:93
+	__( 'Google Analytics Dashboard', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:94
+	__( 'See your website analytics report right inside your WordPress dashboard with actionable insights.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:98
+	__( 'Real-time Stats', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:99
+	__( 'Get real-time stats right inside WordPress to see who is online, what are they doing, and more.', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:103
+	__( 'Enhanced Ecommerce Tracking', 'ga-premium' ),
+
+	// Reference: src/modules/wizard-onboarding/welcome-Pro.vue:104
+	__( '1-click Google Analytics Enhanced Ecommerce tracking for WooCommerce, Easy Digital Downloads & MemberPress.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:21
+	__( 'You must connect with MonsterInsights before you can view reports.', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:22
+	__( 'Connect with MonsterInsights', 'ga-premium' ),
+
+	// Reference: src/modules/reports/components/ReportNoAuth-Pro.vue:23
+	__( 'MonsterInsights makes it "effortless" for you to connect your site with Google Analytics and see reports right here in the WordPress dashboard.', 'ga-premium' ),
+
+	// Reference: src/plugins/monsterinsights-settings-helper-plugin.js:5
+	__( 'You need to %sconnect MonsterInsights%s first', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/SettingsFirstTImeNotice.vue:41
+	__( 'View Reports', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/SettingsFirstTImeNotice.vue:43
+	__( 'Congratulations!', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/SettingsFirstTImeNotice.vue:44
+	__( 'MonsterInsights makes it "effortless" for you to connect your site with Google Analytics and see reports right here in the WordPress dashboard. In order to start tracking please take a look at our %sGetting started video%s or use our %s to get you quickly set up.', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/SettingsFirstTImeNotice.vue:44
+	__( 'Onboarding Wizard', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/SettingsFirstTImeNotice.vue:45
+	__( 'You are now connected with MonsterInsights! MonsterInsights makes it effortless to implement Google Analytics tracking and view reporting directly in the WordPress admin.', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:135
+	__( 'Container loading', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:136
+	__( 'If enabled, the Optimize container will only be loaded on the pages which match the rules.', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:137
+	__( 'Target specific pages', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/tabs/SettingsTabConversions-Pro.vue:138
+	__( 'Expand to edit the rules. By default, the container is loaded on all pages.', 'ga-premium' ),
+
+	// Reference: src/modules/settings/components/input/tab-conversions/SettingsInputOptimizeRules.vue:51
+	__( 'Add rule', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:14
+	__( 'Hide dashboard widget', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:31
+	__( 'Are you sure you want to hide the MonsterInsights Dashboard Widget? ', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:33
+	__( 'Yes, hide it!', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:34
+	__( 'No, cancel!', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:40
+	__( 'MonsterInsights Widget Hidden', 'ga-premium' ),
+
+	// Reference: src/modules/widget/components/settings/WidgetSettingsHide.vue:41
+	__( 'You can re-enable the MonsterInsights widget at any time using the "Screen Options" menu on the top right of this page', 'ga-premium' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

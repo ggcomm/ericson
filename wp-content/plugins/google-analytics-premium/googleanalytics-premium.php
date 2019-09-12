@@ -6,7 +6,7 @@
  * Author:              MonsterInsights
  * Author URI:          https://www.monsterinsights.com/?utm_source=proplugin&utm_medium=pluginheader&utm_campaign=authoruri&utm_content=7%2E0%2E0
  *
- * Version:             7.7.0
+ * Version:             7.8.0
  * Requires at least:   3.8.0
  * Tested up to:        5.1.1
  *
@@ -69,7 +69,7 @@ final class MonsterInsights {
 	 * @access public
 	 * @var string $version Plugin version.
 	 */
-	public $version = '7.7.0';
+	public $version = '7.8.0';
 
 	/**
 	 * The name of the plugin.
@@ -216,7 +216,7 @@ final class MonsterInsights {
 
 			// This does the version to version background upgrade routines and initial install
 			$mi_version = get_option( 'monsterinsights_current_version', '5.5.3' );
-			if ( version_compare( $mi_version, '7.6.0', '<' ) ) {
+			if ( version_compare( $mi_version, '7.7.0', '<' ) ) {
 				monsterinsights_call_install_and_upgrade();
 			}
 
@@ -309,7 +309,7 @@ final class MonsterInsights {
 		} else if ( $key === 'license' ) {
 			if ( empty( self::$instance->license ) ) {
 				// LazyLoad Licensing for Frontend
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/license.php';
+				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/license.php';
 				self::$instance->license = new MonsterInsights_License();
 			}
 			return self::$instance->$key;
@@ -505,7 +505,7 @@ final class MonsterInsights {
 	 */
 	public function load_licensing(){
 		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/license.php';
+			require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/license.php';
 			self::$instance->license = new MonsterInsights_License();
 		}
 	}
@@ -548,7 +548,7 @@ final class MonsterInsights {
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/common.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/notice.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/capabilities.php';
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/license-actions.php';
+				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/admin/licensing/license-actions.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/autoupdate.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/review.php';
 
@@ -600,7 +600,7 @@ final class MonsterInsights {
 		}
 
 		// Load the updater class.
-		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/updater.php';
+		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/admin/licensing/updater.php';
 
 		// Go ahead and initialize the updater.
 		$args = array(
@@ -653,6 +653,15 @@ function monsterinsights_activation_hook( $network_wide ) {
 
 	// Add transient to trigger redirect.
 	set_transient( '_monsterinsights_activation_redirect', 1, 30 );
+
+	// If we have a key set from the upgrade process, validate & activate.
+	$connect_license = get_option( 'monsterinsights_connect', false );
+	if ( ! empty( $connect_license ) ) {
+		if ( ! empty( $connect_license['key'] ) && ! empty( $connect_license['time'] ) && time() - intval( $connect_license['time'] ) < HOUR_IN_SECONDS / 2 ) {
+			MonsterInsights()->license_actions->verify_key( $connect_license['key'] );
+		}
+		delete_option( 'monsterinsights_connect' );
+	}
 }
 register_activation_hook( __FILE__, 'monsterinsights_activation_hook' );
 

@@ -13,6 +13,7 @@ const {
   portalId,
   theme,
   wpVersion,
+  portalDomain,
 } = window.leadinConfig;
 
 const i18n = window.leadinI18n;
@@ -33,4 +34,5 @@ export {
   portalId,
   theme,
   wpVersion,
+  portalDomain,
 };

@@ -19,21 +19,22 @@ require_once ABSPATH . 'wp-admin/includes/plugin.php';
  * general function which can be used to get the treatment for an experiment
  * arg1 => the name of the experiment e.g leadin_banner_experiment. this will be used as the name of the option in the wordpress DB
  * arg2 => number of possible variations
- * returns => a number between 1-number of possible variations for that experiment
+ * returns => 
+ * returns a number between 1-number of possible variations for that experiment
  */
-function leadin_get_experiment_treatment( $experiment_name, $number_of_variations=2 ) {
+function leadin_get_experiment_treatment( $experiment_name, $experiment_ungated = false ,$number_of_variations=2 ) {
 	$treatment = (int) get_option( $experiment_name );
 	if ( empty( $treatment ) ) {
-		$treatment = rand(1,$number_of_variations);
+		$treatment = rand( 1 , $number_of_variations );
 		add_option( $experiment_name, $treatment);
 	}
 	return $treatment;
 }
+
 function leadin_render_disconnected_banner( ) {
-	$experiment_treatment_value= leadin_get_experiment_treatment( 'leadin_banner_experiment' );
+	$experiment_treatment_value = leadin_get_experiment_treatment( 'leadin_banner_experiment' , LEADIN_NEW_BANNER_GATE);
 	if ( LEADIN_NEW_BANNER_GATE  && $experiment_treatment_value === 2 ) {
 		?>
-
 			<div id = "disconnectedBanner" class="notice notice-warning is-dismissible banner-wrapper">
 				<div class="logo-wrapper">
 					<img src="<?php echo esc_attr( LEADIN_PATH . '/images/hubspot-wordmark.svg' ); ?>" class="logo-style"  />
@@ -47,7 +48,7 @@ function leadin_render_disconnected_banner( ) {
 						<br class="mobile-spacing"/>
 							<a  id="loginLink" href ="#" class="signup-link"><?php echo (__( 'Log in', 'leadin' )) ?></a>
 							or
-							<a href="./admin.php?page=leadin">
+							<a href="./admin.php?page=leadin&bannerClick=true">
 								<button class="signup-button">
 									<p class="button-text"><?php echo (__( 'Sign up now', 'leadin' )) ?></p>
 								</button>
@@ -58,7 +59,7 @@ function leadin_render_disconnected_banner( ) {
 				<div  id="hubspot-dashboard-banner-connect" class="content-wrapper">
 					<p class="banner-description"><?php echo (__('Power up your site for free with the ultimate all-in-one marketing plugin for Wordpress','leadin'))?>
 						<br class="mobile-spacing"/>
-						<a href="./admin.php?page=leadin">
+						<a href="./admin.php?page=leadin&bannerClick=true">
 							<button class="signup-button">
 								<p class="button-text"><?php echo (__( 'Connect my account', 'leadin' )) ?></p>
 							</button>
@@ -77,7 +78,7 @@ function leadin_render_disconnected_banner( ) {
 					&nbsp;
 					<?php echo sprintf(
 						esc_html(__( 'The HubSpot plugin isn’t connected right now. To use HubSpot tools on your WordPress site, %1$sconnect the plugin now%2$s.', 'leadin' ))
-						,'<a href="admin.php?page=leadin">',
+						,'<a href="admin.php?page=leadin&bannerClick=true">',
 						'</a>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
@@ -119,6 +120,7 @@ class LeadinAdmin {
 			self::leadin_update_check();
 		}
 
+		add_action( 'admin_init', array( &$this,'leadin_maybe_redirect' ) );
 		add_action( 'admin_menu', array( &$this, 'leadin_add_menu_items' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'add_leadin_admin_scripts' ) );
 		add_filter( 'plugin_action_links_leadin/leadin.php', array( $this, 'leadin_plugin_settings_link' ) );
@@ -130,6 +132,14 @@ class LeadinAdmin {
 			add_option( 'hubspot_affiliate_code', $affiliate );
 		}
 		$this->hydrate_acquisition_attribution();
+	}
+
+	public function leadin_maybe_redirect() {
+		if ( get_transient('leadin_redirect_after_activation' ) ) {
+				delete_transient('leadin_redirect_after_activation');
+				wp_safe_redirect( admin_url( 'admin.php?page=leadin' ) );
+				exit;
+		}
 	}
 
 	/**

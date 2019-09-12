@@ -47,7 +47,7 @@ final class MonsterInsights_Report_Queries extends MonsterInsights_Report {
 		// Add GA links.
 		if ( ! empty( $data['data'] ) ) {
 			$data['data']['galinks'] = array(
-				'queries' => 'https://analytics.google.com/analytics/web/#report/content-site-search-search-terms/' . MonsterInsights()->auth->get_referral_url() . $this->get_ga_report_range( $data['data'] ),
+				'queries' => 'https://analytics.google.com/analytics/web/#report/acquisition-sc-queries/' . MonsterInsights()->auth->get_referral_url() . $this->get_ga_report_range( $data['data'] ),
 			);
 		}
 

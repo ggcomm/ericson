@@ -26,6 +26,12 @@ class MonsterInsights_WP_Site_Health {
 	 * @var bool|string
 	 */
 	private $ecommerce;
+	/**
+	 * Is the website being tracked?
+	 *
+	 * @var bool|string
+	 */
+	private $is_tracking;
 
 	/**
 	 * MonsterInsights_WP_Site_Health constructor.
@@ -35,6 +41,8 @@ class MonsterInsights_WP_Site_Health {
 		add_filter( 'site_status_tests', array( $this, 'add_tests' ) );
 
 		add_action( 'wp_ajax_health-check-monsterinsights-test_connection', array( $this, 'test_check_connection' ) );
+
+		add_action( 'wp_ajax_health-check-monsterinsights-test_tracking_code', array( $this, 'test_check_tracking_code' ) );
 
 	}
 
@@ -97,11 +105,18 @@ class MonsterInsights_WP_Site_Health {
 			'test'  => 'monsterinsights_test_connection',
 		);
 
+		if ( $this->is_tracking() ) {
+			$tests['async']['monsterinsights_tracking_code'] = array(
+				'label' => __( 'MonsterInsights Tracking Code', 'ga-premium' ),
+				'test'  => 'monsterinsights_test_tracking_code',
+			);
+		}
+
 		return $tests;
 	}
 
 	/**
-	 * Checke if the website is licensed.
+	 * Checks if the website is licensed.
 	 *
 	 * @return bool
 	 */
@@ -112,6 +127,21 @@ class MonsterInsights_WP_Site_Health {
 		}
 
 		return $this->is_licensed;
+
+	}
+
+	/**
+	 * Checks if the website is being tracked.
+	 *
+	 * @return bool
+	 */
+	public function is_tracking() {
+
+		if ( ! isset( $this->is_tracking ) ) {
+			$this->is_tracking = ! empty( monsterinsights_get_ua() );
+		}
+
+		return $this->is_tracking;
 
 	}
 
@@ -308,7 +338,7 @@ class MonsterInsights_WP_Site_Health {
 			'test'        => 'monsterinsights_ecommerce',
 		);
 
-		if ( ! $this->is_authed ) {
+		if ( empty( monsterinsights_get_ua() ) ) {
 			$result['status']      = 'recommended';
 			$result['label']       = __( 'eCommerce data is not being tracked', 'ga-premium' );
 			$result['description'] = __( 'Please connect MonsterInsights to Google Analytics to start tracking eCommerce data.', 'ga-premium' );
@@ -539,6 +569,33 @@ class MonsterInsights_WP_Site_Health {
 				// Translators: The error message received.
 				$result['description'] .= ' ' . sprintf( __( 'Error message: %s', 'ga-premium' ), $response->get_error_message() );
 			}
+		}
+
+		wp_send_json_success( $result );
+	}
+
+	/**
+	 * Checks if there is a duplicate tracker.
+	 */
+	public function test_check_tracking_code() {
+
+		$result = array(
+			'label'       => __( 'Tracking code is properly being output.', 'ga-premium' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'MonsterInsights', 'ga-premium' ),
+				'color' => 'blue',
+			),
+			'description' => __( 'The Google Analytics tracking code is being output correctly, and no duplicate Google Analytics scripts have been detected.', 'ga-premium' ),
+			'test'        => 'monsterinsights_tracking_code',
+		);
+
+		$errors = monsterinsights_is_code_installed_frontend();
+
+		if ( ! empty( $errors ) && is_array( $errors ) && ! empty( $errors[0] ) ) {
+			$result['status']      = 'critical';
+			$result['label']       = __( 'MonsterInsights has automatically detected an issue with your tracking setup', 'ga-premium' );
+			$result['description'] = $errors[0];
 		}
 
 		wp_send_json_success( $result );

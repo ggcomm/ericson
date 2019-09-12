@@ -5,7 +5,7 @@ import { initInterframe } from './lib/Interframe';
 import { startPortalIdPolling } from './api/wordpressApi';
 import './handlers';
 import loginThroughPopup from './utils/loginThroughPopup';
-import { getAuth } from './api/hubspotPluginApi';
+import { getAuth, sendEvent } from './api/hubspotPluginApi';
 
 function main() {
   initInterframe();
@@ -24,15 +24,20 @@ function main() {
         window.location.href = './admin.php?page=leadin';
       });
     });
-  });
-
-  getAuth(isAuthenticated => {
-    if (isAuthenticated) {
-      jQuery('#hubspot-dashboard-banner-connect').show();
-    } else {
-      jQuery('#hubspot-dashboard-banner-login').show();
+    if (jQuery('#hubspot-dashboard-banner').length) {
+      sendEvent('disconnectedBannerView', 'control');
+    } else if (jQuery('#disconnectedBanner').length) {
+      sendEvent('disconnectedBannerView', 'variant');
     }
-    jQuery('#disconnectedBanner').show();
+
+    getAuth(isAuthenticated => {
+      if (isAuthenticated) {
+        jQuery('#hubspot-dashboard-banner-connect').show();
+      } else {
+        jQuery('#hubspot-dashboard-banner-login').show();
+      }
+      jQuery('#disconnectedBanner').show();
+    });
   });
 }
 

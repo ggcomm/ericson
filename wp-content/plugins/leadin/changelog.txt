@@ -1,3 +1,10 @@
+= 7.10.0 (2019.08.29) =
+- Fix duplicate tracking code
+- Fix layout with Update WordPress banner
+- Redirect after plugin activation
+- Add information to the login screen
+- Update connection banner
+
 = 7.9.2 (2019.08.20) =
 - Fix infinite loading in pages editor for Gutenberg Forms block
 - Updated translations

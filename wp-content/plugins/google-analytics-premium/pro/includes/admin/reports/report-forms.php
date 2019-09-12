@@ -94,8 +94,8 @@ final class MonsterInsights_Report_Forms extends MonsterInsights_Report {
 				// Formidable Forms.
 				if ( class_exists( 'FrmForm' ) ) {
 					if ( 0 === strpos( $title, 'form_' ) ) {
-						$key = str_replace( 'form_', '', $title );
-						$id  = FrmForm::get_id_by_key( $key );
+						$form_key = str_replace( 'form_', '', $title );
+						$id       = FrmForm::get_id_by_key( $form_key );
 						if ( $id > 0 ) {
 							$form = FrmForm::getOne( $id );
 							if ( ! empty( $form->name ) ) {
