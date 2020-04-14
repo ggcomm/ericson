@@ -24,9 +24,9 @@ class MonsterInsights_Dashboard_Widget_Pro {
 	 * @var array $default_options
 	 */
 	public static $default_options = array(
-		'width'    => 'regular',
-		'interval' => '30',
-		'reports'  => array(
+		'width'       => 'regular',
+		'interval'    => '30',
+		'reports'     => array(
 			'overview'  => array(
 				'toppages'    => true,
 				'newvsreturn' => true,
@@ -48,6 +48,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 				'sessions'    => false, // Sessions to purchase.
 			),
 		),
+		'notice30day' => false,
 	);
 
 	/**
@@ -72,6 +73,11 @@ class MonsterInsights_Dashboard_Widget_Pro {
 		add_action( 'admin_enqueue_scripts', array( $this, 'widget_scripts' ), 1000 );
 
 		add_action( 'wp_ajax_monsterinsights_save_widget_state', array( $this, 'save_widget_state' ) );
+
+		// Reminder notice.
+		add_action( 'admin_footer', array( $this, 'load_notice' ) );
+
+		add_action( 'wp_ajax_monsterinsights_mark_notice_closed', array( $this, 'mark_notice_closed' ) );
 	}
 
 	/**
@@ -105,6 +111,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 			$this->widget_content_no_auth();
 		} else {
 			monsterinsights_settings_error_page( 'monsterinsights-dashboard-widget', '', '0' );
+			monsterinsights_settings_inline_js();
 		}
 
 	}
@@ -141,24 +148,27 @@ class MonsterInsights_Dashboard_Widget_Pro {
 					$wp_forms_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=wpforms-lite' ), 'install-plugin_wpforms-lite' );
 				}
 			}
+			$is_authed = ( MonsterInsights()->auth->is_authed() || MonsterInsights()->auth->is_network_authed() );
 			wp_localize_script(
 				'monsterinsights-vue-widget',
 				'monsterinsights',
 				array(
-					'ajax'              => admin_url( 'admin-ajax.php' ),
-					'nonce'             => wp_create_nonce( 'mi-admin-nonce' ),
-					'network'           => is_network_admin(),
-					'translations'      => wp_get_jed_locale_data( monsterinsights_is_pro_version() ? 'ga-premium' : 'google-analytics-for-wordpress' ),
-					'assets'            => plugins_url( $version_path . '/assets/vue', MONSTERINSIGHTS_PLUGIN_FILE ),
-					'shareasale_id'     => monsterinsights_get_shareasale_id(),
-					'shareasale_url'    => monsterinsights_get_shareasale_url( monsterinsights_get_shareasale_id(), '' ),
-					'addons_url'        => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/addons' ) : admin_url( 'admin.php?page=monsterinsights_settings#/addons' ),
-					'widget_state'      => $this->get_options(),
-					'wpforms_enabled'   => function_exists( 'wpforms' ),
-					'wpforms_installed' => $wpforms_installed,
-					'wpforms_url'       => $wp_forms_url,
+					'ajax'                => admin_url( 'admin-ajax.php' ),
+					'nonce'               => wp_create_nonce( 'mi-admin-nonce' ),
+					'network'             => is_network_admin(),
+					'translations'        => wp_get_jed_locale_data( monsterinsights_is_pro_version() ? 'ga-premium' : 'google-analytics-for-wordpress' ),
+					'assets'              => plugins_url( $version_path . '/assets/vue', MONSTERINSIGHTS_PLUGIN_FILE ),
+					'shareasale_id'       => monsterinsights_get_shareasale_id(),
+					'shareasale_url'      => monsterinsights_get_shareasale_url( monsterinsights_get_shareasale_id(), '' ),
+					'addons_url'          => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/addons' ) : admin_url( 'admin.php?page=monsterinsights_settings#/addons' ),
+					'widget_state'        => $this->get_options(),
+					'wpforms_enabled'     => function_exists( 'wpforms' ),
+					'wpforms_installed'   => $wpforms_installed,
+					'wpforms_url'         => $wp_forms_url,
+					'authed'              => $is_authed,
+					// They wouldn't see this either way if not authed. This is used in Reports.
 					// Used to add notices for future deprecations.
-					'versions'          => array(
+					'versions'            => array(
 						'php_version'          => phpversion(),
 						'php_version_below_54' => apply_filters( 'monsterinsights_temporarily_hide_php_52_and_53_upgrade_warnings', version_compare( phpversion(), '5.4', '<' ) ),
 						'php_version_below_56' => apply_filters( 'monsterinsights_temporarily_hide_php_54_and_55_upgrade_warnings', version_compare( phpversion(), '5.6', '<' ) ),
@@ -168,9 +178,13 @@ class MonsterInsights_Dashboard_Widget_Pro {
 						'wp_version_below_49'  => version_compare( $wp_version, '4.9', '<' ),
 						'wp_update_link'       => monsterinsights_get_url( 'settings-notice', 'settings-page', 'https://www.monsterinsights.com/docs/update-wordpress/' ),
 					),
-					'plugin_version'    => MONSTERINSIGHTS_VERSION,
-					'is_admin'          => true,
-					'reports_url'       => add_query_arg( 'page', 'monsterinsights_reports', admin_url( 'admin.php' ) ),
+					'plugin_version'      => MONSTERINSIGHTS_VERSION,
+					'is_admin'            => true,
+					'reports_url'         => add_query_arg( 'page', 'monsterinsights_reports', admin_url( 'admin.php' ) ),
+					'install_nonce'       => wp_create_nonce( 'monsterinsights-install' ),
+					'activate_nonce'      => wp_create_nonce( 'monsterinsights-activate' ),
+					'getting_started_url' => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/about/getting-started' ) : admin_url( 'admin.php?page=monsterinsights_settings#/about/getting-started' ),
+					'wizard_url'          => admin_url( 'index.php?page=monsterinsights-onboarding' ),
 				)
 			);
 
@@ -201,7 +215,8 @@ class MonsterInsights_Dashboard_Widget_Pro {
 
 		check_ajax_referer( 'mi-admin-nonce', 'nonce' );
 
-		$default = self::$default_options;
+		$default         = self::$default_options;
+		$current_options = $this->get_options();
 
 		$reports = $default['reports'];
 		if ( isset( $_POST['reports'] ) ) {
@@ -212,9 +227,10 @@ class MonsterInsights_Dashboard_Widget_Pro {
 		}
 
 		$options = array(
-			'width'    => ! empty( $_POST['width'] ) ? sanitize_text_field( wp_unslash( $_POST['width'] ) ) : $default['width'],
-			'interval' => ! empty( $_POST['interval'] ) ? absint( wp_unslash( $_POST['interval'] ) ) : $default['interval'],
-			'reports'  => $reports,
+			'width'       => ! empty( $_POST['width'] ) ? sanitize_text_field( wp_unslash( $_POST['width'] ) ) : $default['width'],
+			'interval'    => ! empty( $_POST['interval'] ) ? absint( wp_unslash( $_POST['interval'] ) ) : $default['interval'],
+			'reports'     => $reports,
+			'notice30day' => $current_options['notice30day'],
 		);
 
 		array_walk( $options, 'sanitize_text_field' );
@@ -267,14 +283,41 @@ class MonsterInsights_Dashboard_Widget_Pro {
 	 */
 	public function widget_content_no_auth() {
 
-		$url = is_network_admin() ? network_admin_url( 'admin.php?page=monsterinsights_settings' ) : admin_url( 'admin.php?page=monsterinsights_settings' );
+		$url = is_network_admin() ? network_admin_url( 'admin.php?page=monsterinsights-onboarding' ) : admin_url( 'admin.php?page=monsterinsights-onboarding' );
 		?>
-        <div class="mi-dw-not-authed">
-            <h2><?php esc_html_e( 'Reports are not available', 'ga-premium' ); ?></h2>
-            <p><?php esc_html_e( 'Please connect MonsterInsights to Google Analytics to see reports.', 'ga-premium' ); ?></p>
-            <a href="<?php echo esc_url( $url ); ?>"
-               class="mi-dw-btn-large"><?php esc_html_e( 'Configure MonsterInsights', 'ga-premium' ); ?></a>
-        </div>
+		<div class="mi-dw-not-authed">
+			<h2><?php esc_html_e( 'Website Analytics is not Setup', 'google-analytics-for-wordpress' ); ?></h2>
+			<p><?php esc_html_e( 'To see your website stats, please connect MonsterInsights to Google Analytics.', 'google-analytics-for-wordpress' ); ?></p>
+			<a href="<?php echo esc_url( $url ); ?>" class="mi-dw-btn-large"><?php esc_html_e( 'Setup Website Analytics', 'google-analytics-for-wordpress' ); ?></a>
+		</div>
 		<?php
+	}
+
+	/**
+	 * Reminder notice markup.
+	 */
+	public function load_notice() {
+
+		$screen = get_current_screen();
+		$ua     = monsterinsights_get_ua();
+		if ( isset( $screen->id ) && 'dashboard' === $screen->id && ! empty( $ua ) ) {
+			?>
+			<div id="monsterinsights-reminder-notice"></div>
+			<?php
+		}
+
+	}
+
+	/**
+	 * Mark notice as dismissed.
+	 */
+	public function mark_notice_closed() {
+
+		check_ajax_referer( 'mi-admin-nonce', 'nonce' );
+		$options                = $this->get_options();
+		$options['notice30day'] = time();
+		update_user_meta( get_current_user_id(), 'monsterinsights_user_preferences', $options );
+
+		wp_send_json_success();
 	}
 }

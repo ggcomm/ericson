@@ -6,9 +6,8 @@
  * Author:              MonsterInsights
  * Author URI:          https://www.monsterinsights.com/?utm_source=proplugin&utm_medium=pluginheader&utm_campaign=authoruri&utm_content=7%2E0%2E0
  *
- * Version:             7.7.0
+ * Version:             7.9.1
  * Requires at least:   3.8.0
- * Tested up to:        5.1.1
  *
  * License:             GPL v3
  *
@@ -69,7 +68,7 @@ final class MonsterInsights {
 	 * @access public
 	 * @var string $version Plugin version.
 	 */
-	public $version = '7.7.0';
+	public $version = '7.9.1';
 
 	/**
 	 * The name of the plugin.
@@ -216,7 +215,7 @@ final class MonsterInsights {
 
 			// This does the version to version background upgrade routines and initial install
 			$mi_version = get_option( 'monsterinsights_current_version', '5.5.3' );
-			if ( version_compare( $mi_version, '7.6.0', '<' ) ) {
+			if ( version_compare( $mi_version, '7.9.0', '<' ) ) {
 				monsterinsights_call_install_and_upgrade();
 			}
 
@@ -241,6 +240,18 @@ final class MonsterInsights {
 				}
 
 				self::$instance->routes 		  = new MonsterInsights_Rest_Routes();
+
+				if ( '' === self::$instance->license->get_license_key() ) {
+					// If we have a key set from the upgrade process, validate & activate.
+					$connect_license = get_option( 'monsterinsights_connect', false );
+					if ( ! empty( $connect_license ) ) {
+						if ( ! empty( $connect_license['key'] ) && ! empty( $connect_license['time'] ) && time() - intval( $connect_license['time'] ) < HOUR_IN_SECONDS / 2 ) {
+							include_once( ABSPATH . 'wp-admin/includes/plugin.php' );// Make sure wp_clean_plugins_cache is available.
+							MonsterInsights()->license_actions->verify_key( $connect_license['key'] );
+						}
+						delete_option( 'monsterinsights_connect' );
+					}
+				}
 			}
 
 			if ( monsterinsights_is_pro_version() ) {
@@ -309,7 +320,7 @@ final class MonsterInsights {
 		} else if ( $key === 'license' ) {
 			if ( empty( self::$instance->license ) ) {
 				// LazyLoad Licensing for Frontend
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/license.php';
+				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/license.php';
 				self::$instance->license = new MonsterInsights_License();
 			}
 			return self::$instance->$key;
@@ -505,7 +516,7 @@ final class MonsterInsights {
 	 */
 	public function load_licensing(){
 		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/license.php';
+			require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/license.php';
 			self::$instance->license = new MonsterInsights_License();
 		}
 	}
@@ -537,18 +548,18 @@ final class MonsterInsights {
 	 */
 	public function require_files() {
 
+		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/capabilities.php';
+
 		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 
 			// Lite and Pro files
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'assets/lib/pandora/class-am-notification.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'assets/lib/pandora/class-am-deactivation-survey.php';
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'assets/lib/pandora/class-am-dashboard-widget-extend-feed.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/ajax.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/admin.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/common.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/notice.php';
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/capabilities.php';
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/license-actions.php';
+				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/admin/licensing/license-actions.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/autoupdate.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/review.php';
 
@@ -600,7 +611,7 @@ final class MonsterInsights {
 		}
 
 		// Load the updater class.
-		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/licensing/updater.php';
+		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/admin/licensing/updater.php';
 
 		// Go ahead and initialize the updater.
 		$args = array(
@@ -648,7 +659,9 @@ function monsterinsights_activation_hook( $network_wide ) {
 
 	if ( class_exists( 'MonsterInsights_Lite' ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-		wp_die( sprintf( esc_html__( 'Please uninstall and remove Google Analytics for WordPress by MonsterInsights before activating MonsterInsights Pro. The Pro version has not been activated. %1$sClick here to return to the Dashboard%2$s.', 'ga-premium' ), '<a href="' . $url . '">', '</a>' ) );
+		$lite_file      = plugin_basename( MonsterInsights_Lite::get_instance()->file );
+		$deactivate_url = wp_nonce_url( admin_url( 'plugins.php?action=deactivate&plugin=' . urlencode( $lite_file ) ), 'deactivate-plugin_' . $lite_file );
+		wp_die( sprintf( esc_html__( 'Please uninstall and remove Google Analytics for WordPress by MonsterInsights before activating MonsterInsights Pro. The Pro version has not been activated.%5$s%5$s %3$sDeactivate the Lite plugin%4$s %1$sReturn to the Plugins list%2$s', 'ga-premium' ), '<a href="' . $url . '" class="button">', '</a>', '<a href="' . $deactivate_url . '" class="button" style="background: #007cba; border-color: #007cba;color: #fff;text-decoration: none;	text-shadow: none;">', '</a>', '</br>' ) );
 	}
 
 	// Add transient to trigger redirect.

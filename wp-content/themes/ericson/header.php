@@ -12,9 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="<?php bloginfo('charset'); ?>" />
 	<link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.png" />
-	<title><?php wp_title( '|', true, 'right' ); ?> <?php bloginfo('name'); ?></title>              
-	<link rel="profile" href="http://gmpg.org/xfn/11" />        
-	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" /> 
+	<title><?php wp_title( '|', true, 'right' ); ?> <?php bloginfo('name'); ?></title>
+	<link rel="profile" href="http://gmpg.org/xfn/11" />
+	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
   <?php wp_head(); ?>
 
  <!-- Facebook Pixel Code -->
@@ -27,11 +27,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '176371822969209'); 
+fbq('init', '176371822969209');
 fbq('track', 'PageView');
 </script>
 <noscript>
-<img height="1" width="1" 
+<img height="1" width="1"
 src="https://www.facebook.com/tr?id=176371822969209&ev=PageView
 &noscript=1"/>
 </noscript>
@@ -53,7 +53,13 @@ src="https://www.facebook.com/tr?id=176371822969209&ev=PageView
 						<a href="/request-a-quote/" class="btn btn-tertiary inverse">Request A Quote</a> <a href="https://products.ericson.com/checkout/cart/" class="cart-link"><span class="sr-only">Shopping Cart</span><i class="fas fa-shopping-cart"></i></a> <button class="search-link" id="toggle-search"><span class="sr-only">Search</span><i class="fas fa-search"></i></button>
 					</div>
 					<div class="hidden-secondary-nav">
-						<div class="product-search-container"><form action="https://products.ericson.com/catalogsearch/result/" method="get"><label for="product-search" class="sr-only">Product Search</label><input type="text" name="q" class="form-control" id="product-search" placeholder="Product Search"><input type="submit" alt="Search" value="Search" class="search-link"><i class="fas fa-search site-search-icon"></i></form></div> <div class="site-search-container"><form action="/" method="get"><label for="site-search" class="sr-only">Site Search</label><input type="text" name="s" class="form-control" id="site-search" placeholder="Site Search"><input type="submit" alt="Search" value="Search" class="search-link"><i class="fas fa-search site-search-icon"></i></form></div> <button class="close-link"><span class="sr-only">Close</span><i class="fas fa-times"></i></button>
+
+						<div class="product-quote-container">
+							<a href="/request-a-quote/" class="btn btn-primary">Request A Quote</a> <button class="close-link"><span class="sr-only">Close</span><i class="fas fa-times"></i></button>
+						</div>
+
+						<div class="product-search-container"><form action="https://products.ericson.com/catalogsearch/result/" method="get"><label for="product-search" class="sr-only">Product Search</label><input type="text" name="q" class="form-control" id="product-search" placeholder="Product Search"><input type="submit" alt="Search" value="Search" class="search-link"><i class="fas fa-search site-search-icon"></i></form></div> <div class="site-search-container"><form action="/" method="get"><label for="site-search" class="sr-only">Site Search</label><input type="text" name="s" class="form-control" id="site-search" placeholder="Site Search"><input type="submit" alt="Search" value="Search" class="search-link"><i class="fas fa-search site-search-icon"></i></form></div>
+						<button class="close-link desktop"><span class="sr-only">Close</span><i class="fas fa-times"></i></button>
 					</div>
 				</div>
 			</div>

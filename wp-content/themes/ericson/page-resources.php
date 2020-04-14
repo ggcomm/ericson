@@ -72,6 +72,11 @@ $white_papers = new WP_Query(array(
 					<hr/>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col">
+					<a href="/resources/case-studies/" class="btn btn-secondary">View All Case Studies</a>
+				</div>
+			</div>
 			<?php if($case_studies->have_posts()): ?>
 				<?php $count_cs = $case_studies->post_count; ?>
 				<?php $i_cs = 0; ?>
@@ -157,6 +162,11 @@ $white_papers = new WP_Query(array(
 			<div class="row">
 				<div class="col">
 					<hr/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a href="/resources/white-papers/" class="btn btn-secondary">View All White Papers</a>
 				</div>
 			</div>
 		</div>

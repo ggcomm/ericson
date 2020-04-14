@@ -73,6 +73,16 @@ final class MonsterInsights_Report_Publisher extends MonsterInsights_Report {
 			}
 		}
 
+		// ESC_HTML on affiliate links.
+		if ( ! empty( $data['data']['affiliatelinks'] ) ) {
+			foreach ( $data['data']['affiliatelinks'] as $link_key => $affiliatelink ) {
+				if ( ! isset( $data['data']['affiliatelinks'][ $link_key ]['title'] ) ) {
+					continue;
+				}
+				$data['data']['affiliatelinks'][ $link_key ]['title'] = esc_html( $affiliatelink['title'] );
+			}
+		}
+
 		if ( ! empty( $data['data'] ) ) {
 			$data['data']['galinks'] = array(
 				'landingpages'   => 'https://analytics.google.com/analytics/web/#report/content-landing-pages/' . MonsterInsights()->auth->get_referral_url() . $this->get_ga_report_range( $data['data'] ),

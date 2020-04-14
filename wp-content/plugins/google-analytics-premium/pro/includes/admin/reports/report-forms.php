@@ -43,7 +43,8 @@ final class MonsterInsights_Report_Forms extends MonsterInsights_Report {
 		if ( ! class_exists( 'MonsterInsights_Forms' ) ) {
 			add_filter( 'monsterinsights_reports_handle_error_message', array( $this, 'add_error_addon_link' ) );
 
-			return __( 'Please activate the forms addon.', 'ga-premium' );
+			// Translators: %s will be the action (install/activate) which will be filled depending on the addon state.
+			return __( 'Please %s the MonsterInsights Forms addon to view Forms reports.', 'ga-premium' );
 		}
 
 		if ( version_compare( MonsterInsights_Forms::get_instance()->version, '1.1.0', '<' ) ) {
@@ -94,8 +95,8 @@ final class MonsterInsights_Report_Forms extends MonsterInsights_Report {
 				// Formidable Forms.
 				if ( class_exists( 'FrmForm' ) ) {
 					if ( 0 === strpos( $title, 'form_' ) ) {
-						$key = str_replace( 'form_', '', $title );
-						$id  = FrmForm::get_id_by_key( $key );
+						$form_key = str_replace( 'form_', '', $title );
+						$id       = FrmForm::get_id_by_key( $form_key );
 						if ( $id > 0 ) {
 							$form = FrmForm::getOne( $id );
 							if ( ! empty( $form->name ) ) {

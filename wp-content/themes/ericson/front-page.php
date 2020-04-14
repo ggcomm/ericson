@@ -12,14 +12,6 @@ foreach ($blog_feed_object->item as $item) {
 $blog_feed_json = json_encode($blog_feed_posts);
 $blog_feed_array = json_decode($blog_feed_json,TRUE);
 
-$industries = new WP_Query(array(
-    'post_type' => 'industries',
-    'post_status' => 'publish',
-    'posts_per_page' => -1,
-    'orderby' => 'title',
-		'order' => 'ASC',
-));
-
 $featured_offers_items = array();
 
 if(get_field('home_wtpprs_offers')){
@@ -65,6 +57,48 @@ if($total_hub_offers % 2 === 0) {
 else {
 	$hub_offers_even = 0;
 }
+
+
+ if ( have_rows( 'home_industires' ) ) :
+	 $i = 0;
+	 $industries = array();
+	 while ( have_rows( 'home_industires' ) ) : the_row();
+		 $post_object = get_sub_field( 'choose_industry' );
+		 if ( $post_object ):
+			 $post = $post_object;
+			 setup_postdata( $post );
+
+			 $industries[$i]['id'] = $post->ID;
+			 $industries[$i]['label'] = $post->post_title;
+			 $industries[$i]['permalink'] = get_permalink($post->ID);
+
+
+			  if ( have_rows( 'industry_marquee', $post->ID ) ) :
+					 while ( have_rows( 'industry_marquee', $post->ID ) ) : the_row();
+						 if ( get_sub_field( 'industry_main_image_field' ) ) {
+							$industries[$i]['image'] =get_sub_field( 'industry_main_image_field' );
+						 }
+						 if ( have_rows( 'industry_quote', $post->ID ) ) :
+							 while ( have_rows( 'industry_quote', $post->ID ) ) : the_row();
+								 $industries[$i]['quote'] = get_sub_field( 'industry_quote_text' );
+								 if ( get_sub_field( 'industry_quote_bg_img' ) ) {
+									$industries[$i]['bg_img'] = get_sub_field( 'industry_quote_bg_img' );
+								 }
+							 endwhile;
+						 endif;
+					 endwhile;
+				 endif;
+
+
+
+			 wp_reset_postdata();
+		 endif;
+		 $i++;
+	 endwhile;
+ else :
+	 // no rows found
+ endif;
+
 
 ?>
 
@@ -232,27 +266,20 @@ else {
 		</section>
 	<?php endif; ?>
 
-
-	<?php if($industries->have_posts()): ?>
+	<?php if( sizeof($industries) > 0 ): ?>
 		<section class="industries-wrapper">
 			<h2 class="sr-only">Our Industries</h2>
 			<div class="container-fluid">
 				<div class="row">
-					<?php while( $industries->have_posts()):
-						$industries->the_post();
-						$industry_title = get_the_title();
-						$industry_url = get_permalink();
-						$industry_grid_text = get_field('industry_grid_text');
-						$industry_marquee = get_field('industry_marquee');
-						?>
+					<?php foreach( $industries as $industry): ?>
 						<div class="col-sm-6 col-lg-4 col-xl-3 industry-block">
-							<?php if(isset($industry_url)): ?><a href="<?php print $industry_url; ?>"><?php endif; ?>
-								<div class="industry-background" <?php if(isset($industry_marquee['industry_main_image_field'])): ?>style="background-image: url('<?php print $industry_marquee['industry_main_image_field']; ?>');"<?php endif; ?>>
+							<?php if(isset($industry['permalink'])): ?><a href="<?php print $industry['permalink']; ?>"><?php endif; ?>
+								<div class="industry-background" <?php if(isset($industry['image'])): ?>style="background-image: url('<?php print $industry['image']; ?>');"<?php endif; ?>>
 								</div>
 								<div class="d-flex align-items-center justify-content-center industry-title">
 									<div class="text-center">
 										<div class="title-wrapper">
-											<h3><?php print $industry_title; ?></h3>
+											<h3><?php print $industry['label']; ?></h3>
 										</div>
 									</div>
 								</div>
@@ -260,19 +287,19 @@ else {
 									<div>
 										<div class="row">
 											<div class="col industry-overlay-title">
-												<?php print $industry_title; ?> <i class="fas fa-caret-right"></i>
+												<?php print $industry['label']; ?> <i class="fas fa-caret-right"></i>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col">
-												<?php print $industry_grid_text; ?>
+												<?php print $industry['quote']; ?>
 											</div>
 										</div>
 									</div>
 								</div>
-							<?php if(isset($industry_url)): ?></a><?php endif; ?>
+							<?php if(isset($industry['image'])): ?></a><?php endif; ?>
 						</div>
-					<?php endwhile; ?>
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</section>
@@ -287,7 +314,7 @@ else {
 					<?php foreach ($featured_offers_items as $offer_key => $offer):
 						$i_hub++;
 					?>
-						
+
 						<?php if((int)$i_hub === (int)$total_hub_offers && $hub_offers_even === 0 && $offer['status'] == 'publish'): ?>
 							<div class="col-md-6 offset-md-3 hub-offer">
 								<div class="row">
@@ -450,7 +477,7 @@ else {
 					</div>
 				</div>
 			</div>
-		</section>	
+		</section>
 	<?php endif; ?>
 
 </main>

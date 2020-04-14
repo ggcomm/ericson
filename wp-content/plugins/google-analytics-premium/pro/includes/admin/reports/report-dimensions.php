@@ -43,7 +43,8 @@ final class MonsterInsights_Report_Dimensions extends MonsterInsights_Report {
 		if ( ! class_exists( 'MonsterInsights_Admin_Custom_Dimensions' ) ) {
 			add_filter( 'monsterinsights_reports_handle_error_message', array( $this, 'add_error_addon_link' ) );
 
-			return __( 'Please activate the custom dimensions addon.', 'ga-premium' );
+			// Translators: %s will be the action (install/activate) which will be filled depending on the addon state.
+			return __( 'Please %s the MonsterInsights Dimensions addon to view custom dimensions reports.', 'ga-premium' );
 		}
 
 		if ( version_compare( MonsterInsights_Dimensions::get_instance()->version, '1.1.0', '<' ) ) {
@@ -52,6 +53,11 @@ final class MonsterInsights_Report_Dimensions extends MonsterInsights_Report {
 
 		$dimensions = $this->get_active_enabled_custom_dimensions();
 		if ( empty( $dimensions ) || ! is_array( $dimensions ) ) {
+			add_filter( 'monsterinsights_reports_handle_error_message', array(
+				$this,
+				'add_dimensions_settings_link'
+			) );
+
 			return __( 'Please enable at least 1 dimension to use this report', 'ga-premium' );
 		}
 
@@ -105,9 +111,9 @@ final class MonsterInsights_Report_Dimensions extends MonsterInsights_Report {
 					foreach ( $data['data'][ $key ]['data'] as $dimension_key => $dimension_info ) {
 						$title = $dimension_info['label'];
 						if ( 'true' === $title ) {
-							$title = __( 'Logged In', 'monsterinsights-dimensions' );
+							$title = __( 'Logged-In', 'monsterinsights-dimensions' );
 						} else if ( $title === 'false' ) {
-							$title = __( 'Logged Out', 'monsterinsights-dimensions' );
+							$title = __( 'Logged-Out', 'monsterinsights-dimensions' );
 						}
 						if ( is_string( $title ) &&
 						     true === preg_match( '/^' .
@@ -130,6 +136,21 @@ final class MonsterInsights_Report_Dimensions extends MonsterInsights_Report {
 			foreach ( $data['data']['dimensions'] as $key => $dimension_data ) {
 				$data['data']['galinks'][ $key ] = 'https://analytics.google.com/analytics/web/#/report/visitors-custom-variables/' . MonsterInsights()->auth->get_referral_url() . $this->get_ga_report_range( $data['data'] ) . rawurlencode( '&explorer-segmentExplorer.segmentId=analytics.customVarName' . $key . '&explorer-table.plotKeys=[]/' );
 			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Add link to settings for dimensions error when no dimensions are set.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function add_dimensions_settings_link( $data ) {
+		if ( current_user_can( 'monsterinsights_save_settings' ) ) {
+			$data['data']['footer'] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=monsterinsights_settings#/conversions' ), esc_html__( 'View dimensions settings', 'ga-premium' ) );
 		}
 
 		return $data;

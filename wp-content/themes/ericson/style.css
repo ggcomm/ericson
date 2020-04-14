@@ -396,7 +396,8 @@ input.search-link {
 .site-search-container .search-link {
 	margin-right: 0px;
 }
-button.close-link {
+button.close-link,
+button.close-link.desktop {
 	display: inline-block;
 	background-color: #FFFFFF;
 	color: #939193;
@@ -425,6 +426,54 @@ button.close-link {
 .search-container {
 	padding-top: 3rem;
 	padding-bottom: 3rem;
+}
+
+.hidden-secondary-nav .product-quote-container{
+	display: none;
+}
+
+@media only screen and (max-width: 767px) {
+
+		.product-quote-container .btn-primary{
+			padding-top: 6px;
+			padding-bottom: 6px;
+			margin-top: 0;
+			width: 87%;
+			margin-right: 3%;
+		}
+
+		.product-quote-container{
+			margin-bottom: 1em;
+		}
+
+		.product-quote-container .close-link{
+			margin-right: 0;
+		}
+
+		.product-search-container{
+			width: 100% !important;
+			margin-bottom: 1em;
+		}
+
+		.site-search-container{
+			width: 100% !important;
+			margin-bottom: 0.5em;
+		}
+
+
+		.product-search-container .form-control,
+		.site-search-container .form-control {
+		    width: 85% !important;
+		}
+
+		.hidden-secondary-nav .product-quote-container{
+			display: block;
+		}
+
+		.hidden-secondary-nav .close-link.desktop{
+			display: none;
+		}
+
 }
 
 
@@ -583,7 +632,7 @@ nav .navbar-nav .nav-link > .fas {
 	background-color: #fff452;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	height: 56px;
+	min-height: 56px;
 }
 
 
@@ -772,12 +821,14 @@ nav .navbar-nav .nav-link > .fas {
 	font-family: 'Exo 2', sans-serif;
 	font-weight: 700;
 	font-size: 100px;
-	text-stroke-width: 1.5px;
-	text-stroke-color: #012f55;
+	/* text-stroke-width: 1.5px;
+	text-stroke-color: #012f55; */
 	text-fill-color: rgba(255, 255, 255, 0.8);
-	-webkit-text-stroke-width: 1.5px;
-	-webkit-text-stroke-color: #012f55;
+	/* -webkit-text-stroke-width: 1.5px;
+	-webkit-text-stroke-color: #012f55; */
 	-webkit-text-fill-color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #012f55, -1px -1px #012f55, 1px -1px #012f55, -1px 1px #012f55;
 	letter-spacing: 1px;
 	line-height: 1em;
 }
@@ -2239,9 +2290,3 @@ nav .navbar-nav .nav-link > .fas {
 	    padding-bottom: 2rem;
 	}
 }
-
-
-
-
-
-

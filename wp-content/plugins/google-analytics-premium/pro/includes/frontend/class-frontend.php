@@ -25,23 +25,13 @@ function monsterinsights_scroll_tracking_output_after_script() {
 		ob_start();
 		echo PHP_EOL;
 		?>
-		<!-- MonsterInsights Scroll Tracking -->
-		<script type="text/javascript">
+		/* MonsterInsights Scroll Tracking */
 			if ( typeof(jQuery) !== 'undefined' ) {
 				jQuery( document ).ready(function(){
 					function monsterinsights_scroll_tracking_load() {
 						if ( typeof(__gaTracker) !== 'undefined' && __gaTracker && __gaTracker.hasOwnProperty( "loaded" ) && __gaTracker.loaded == true ) {
 							(function(factory) {
-								if (typeof define === 'function' && define.amd) {
-									/* AMD */
-									define(['jquery'], factory);
-								} else if (typeof module === 'object' && module.exports) {
-									/* CommonJS */
-									module.exports = factory(require('jquery'));
-								} else {
-									/* Browser globals */
-									factory(jQuery);
-								}
+								factory(jQuery);
 							}(function($) {
 
 								/* Scroll Depth */
@@ -79,6 +69,10 @@ function monsterinsights_scroll_tracking_output_after_script() {
 											eventValue    : 1,
 											nonInteraction: 1
 										};
+
+										if ( 'undefined' === typeof MonsterInsightsObject || 'undefined' === typeof MonsterInsightsObject.sendEvent ) {
+											return;
+										}
 
 										MonsterInsightsObject.sendEvent( fieldsArray );
 										if (arguments.length > 3) {
@@ -255,11 +249,17 @@ function monsterinsights_scroll_tracking_output_after_script() {
 					monsterinsights_scroll_tracking_load();
 				});
 			}
-		</script>
-		<!-- End MonsterInsights Scroll Tracking -->
+		/* End MonsterInsights Scroll Tracking */
 		<?php
 		echo PHP_EOL;
-		echo ob_get_clean();
+		$scroll_script = ob_get_clean();
+
+		if ( wp_script_is( 'jquery', 'enqueued' ) ) {
+			echo '<script type="text/javascript">' . $scroll_script . '</script>';
+		} else {
+			wp_enqueue_script( 'jquery' );
+			wp_add_inline_script( 'jquery', $scroll_script );
+		}
 	}
 
 }

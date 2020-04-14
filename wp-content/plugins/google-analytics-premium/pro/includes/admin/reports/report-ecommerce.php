@@ -43,12 +43,15 @@ final class MonsterInsights_Report_eCommerce extends MonsterInsights_Report {
 		if ( ! class_exists( 'MonsterInsights_eCommerce' ) ) {
 			add_filter( 'monsterinsights_reports_handle_error_message', array( $this, 'add_error_addon_link' ) );
 
-			return __( 'Please activate the ecommerce addon.', 'ga-premium' );
+			// Translators: %s will be the action (install/activate) which will be filled depending on the addon state.
+			return __( 'Please %s the MonsterInsights eCommerce addon to view eCommerce reports.', 'ga-premium' );
 		}
 
 		$enhanced_commerce = (bool) monsterinsights_get_option( 'enhanced_ecommerce', false );
 
 		if ( ! $enhanced_commerce ) {
+			add_filter( 'monsterinsights_reports_handle_error_message', array( $this, 'add_ecommerce_settings_link' ) );
+
 			return __( 'Please enable enhanced eCommerce in the MonsterInsights eCommerce settings to use the eCommerce report.', 'ga-premium' );
 		}
 
@@ -73,6 +76,21 @@ final class MonsterInsights_Report_eCommerce extends MonsterInsights_Report {
 				'sessions'    => 'https://analytics.google.com/analytics/web/#report/bf-time-lag/' . MonsterInsights()->auth->get_referral_url() . $this->get_ga_report_range( $data['data'] ),
 			);
 		}
+
+		return $data;
+	}
+
+	/**
+	 * Add link to ecommerce settings to the footer of the disabled enhanced ecommerce notice.
+	 *
+	 * @param array $data The data being sent back to the Ajax call.
+	 *
+	 * @return array
+	 */
+	public function add_ecommerce_settings_link( $data ) {
+		$ecommerce_link         = add_query_arg( array( 'page' => 'monsterinsights_settings' ), admin_url( 'admin.php' ) );
+		$ecommerce_link        .= '#/ecommerce';
+		$data['data']['footer'] = '<a href="' . esc_url( $ecommerce_link ) . '">' . esc_html__( 'Enable Enhanced eCommerce', 'ga-premium' ) . '</a>';
 
 		return $data;
 	}
