@@ -23,6 +23,8 @@ class MonsterInsights_Rest_Routes {
 		add_action( 'wp_ajax_monsterinsights_update_manual_ua', array( $this, 'update_manual_ua' ) );
 		add_action( 'wp_ajax_monsterinsights_vue_get_report_data', array( $this, 'get_report_data' ) );
 		add_action( 'wp_ajax_monsterinsights_vue_install_plugin', array( $this, 'install_plugin' ) );
+		add_action( 'wp_ajax_monsterinsights_vue_notice_status', array( $this, 'get_notice_status' ) );
+		add_action( 'wp_ajax_monsterinsights_vue_notice_dismiss', array( $this, 'dismiss_notice' ) );
 
 		add_action( 'wp_ajax_monsterinsights_handle_settings_import', array( $this, 'handle_settings_import' ) );
 
@@ -265,12 +267,13 @@ class MonsterInsights_Rest_Routes {
 			'active' => defined( 'AMP__FILE__' ),
 		);
 		// WPForms.
-		$parsed_addons['wpforms'] = array(
+		$parsed_addons['wpforms-lite'] = array(
 			'active'    => function_exists( 'wpforms' ),
 			'icon'      => plugin_dir_url( MONSTERINSIGHTS_PLUGIN_FILE ) . 'assets/images/plugin-wpforms.png',
 			'title'     => 'WPForms',
 			'excerpt'   => __( 'The most beginner friendly drag & drop WordPress forms plugin allowing you to create beautiful contact forms, subscription forms, payment forms, and more in minutes, not hours!', 'google-analytics-for-wordpress' ),
 			'installed' => array_key_exists( 'wpforms-lite/wpforms.php', $installed_plugins ),
+			'basename'  => 'wpforms-lite/wpforms.php',
 			'slug'      => 'wpforms-lite',
 		);
 		// OptinMonster.
@@ -288,10 +291,38 @@ class MonsterInsights_Rest_Routes {
 			'active'    => function_exists( 'wp_mail_smtp' ),
 			'icon'      => plugin_dir_url( MONSTERINSIGHTS_PLUGIN_FILE ) . 'assets/images/plugin-smtp.png',
 			'title'     => 'WP Mail SMTP',
-			'excerpt'   => __( 'SMTP (Simple Mail Transfer Protocol) is an industry standard for sending emails. SMTP helps increase email deliverability by using proper authentication', 'google-analytics-for-wordpress' ),
-			'installed' => array_key_exists( 'optinmonster/optin-monster-wp-api.php', $installed_plugins ),
+			'excerpt'   => __( 'SMTP (Simple Mail Transfer Protocol) is an industry standard for sending emails. SMTP helps increase email deliverability by using proper authentication.', 'google-analytics-for-wordpress' ),
+			'installed' => array_key_exists( 'wp-mail-smtp/wp_mail_smtp.php', $installed_plugins ),
 			'basename'  => 'wp-mail-smtp/wp_mail_smtp.php',
 			'slug'      => 'wp-mail-smtp',
+		);
+		// SeedProd.
+		$parsed_addons['coming-soon'] = array(
+			'active'    => function_exists( 'seed_csp4_activation' ),
+			'icon'      => plugin_dir_url( MONSTERINSIGHTS_PLUGIN_FILE ) . 'assets/images/seedprod.png',
+			'title'     => 'SeedProd',
+			'excerpt'   => __( 'Better Coming Soon & Maintenance Mode Pages', 'google-analytics-for-wordpress' ),
+			'installed' => array_key_exists( 'coming-soon/coming-soon.php', $installed_plugins ),
+			'basename'  => 'coming-soon/coming-soon.php',
+			'slug'      => 'coming-soon',
+		);
+		$parsed_addons['rafflepress'] = array(
+			'active'    => function_exists( 'rafflepress_lite_activation' ),
+			'icon'      => plugin_dir_url( MONSTERINSIGHTS_PLUGIN_FILE ) . 'assets/images/rafflepress.png',
+			'title'     => 'RafflePress',
+			'excerpt'   => __( 'Get More Traffic with Viral Giveaways', 'google-analytics-for-wordpress' ),
+			'installed' => array_key_exists( 'rafflepress/rafflepress.php', $installed_plugins ),
+			'basename'  => 'rafflepress/rafflepress.php',
+			'slug'      => 'rafflepress',
+		);
+		$parsed_addons['trustpulse-api'] = array(
+			'active'    => class_exists( 'TPAPI' ),
+			'icon'      => plugin_dir_url( MONSTERINSIGHTS_PLUGIN_FILE ) . 'assets/images/trustpulse.png',
+			'title'     => 'TrustPulse',
+			'excerpt'   => __( 'Social Proof Notifications that Boost Sales', 'google-analytics-for-wordpress' ),
+			'installed' => array_key_exists( 'trustpulse-api/trustpulse.php', $installed_plugins ),
+			'basename'  => 'trustpulse-api/trustpulse.php',
+			'slug'      => 'trustpulse-api',
 		);
 		// Gravity Forms.
 		$parsed_addons['gravity_forms'] = array(
@@ -372,12 +403,12 @@ class MonsterInsights_Rest_Routes {
 			return;
 		}
 
-		$manual_ua_code     = isset( $_POST['manual_ua_code'] ) ? sanitize_text_field( wp_unslash( $_POST['manual_ua_code'] ) ) : '';
-		$manual_ua_code     = monsterinsights_is_valid_ua( $manual_ua_code ); // Also sanitizes the string.
-		$manual_ua_code_old = MonsterInsights()->auth->get_manual_ua();
+		$manual_ua_code = isset( $_POST['manual_ua_code'] ) ? sanitize_text_field( wp_unslash( $_POST['manual_ua_code'] ) ) : '';
+		$manual_ua_code = monsterinsights_is_valid_ua( $manual_ua_code ); // Also sanitizes the string.
 		if ( ! empty( $_REQUEST['isnetwork'] ) && sanitize_text_field( wp_unslash( $_REQUEST['isnetwork'] ) ) ) {
 			define( 'WP_NETWORK_ADMIN', true );
 		}
+		$manual_ua_code_old = is_network_admin() ? MonsterInsights()->auth->get_network_manual_ua() : MonsterInsights()->auth->get_manual_ua();
 
 		if ( $manual_ua_code && $manual_ua_code_old && $manual_ua_code_old === $manual_ua_code ) {
 			// Same code we had before
@@ -533,12 +564,14 @@ class MonsterInsights_Rest_Routes {
 		$report = MonsterInsights()->reporting->get_report( $report_name );
 
 		$isnetwork = ! empty( $_REQUEST['isnetwork'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['isnetwork'] ) ) : '';
-		$start     = ! empty( $_POST['start'] ) ? sanitize_text_field( wp_unslash( $_POST['start'] ) ) : '';
-		$end       = ! empty( $_POST['end'] ) ? sanitize_text_field( wp_unslash( $_POST['end'] ) ) : '';
+		$start     = ! empty( $_POST['start'] ) ? sanitize_text_field( wp_unslash( $_POST['start'] ) ) : $report->default_start_date();
+		$end       = ! empty( $_POST['end'] ) ? sanitize_text_field( wp_unslash( $_POST['end'] ) ) : $report->default_end_date();
+
 		$args      = array(
 			'start' => $start,
 			'end'   => $end,
 		);
+
 		if ( $isnetwork ) {
 			$args['network'] = true;
 		}
@@ -654,6 +687,8 @@ class MonsterInsights_Rest_Routes {
 		$base = MonsterInsights();
 		require_once plugin_dir_path( $base->file ) . '/includes/admin/licensing/skin.php';
 
+		// Prevent languange upgrade in ajax calls.
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
 		// Create the plugin upgrader with our custom skin.
 		$installer = new Plugin_Upgrader( new MonsterInsights_Skin() );
 		$installer->install( $download_url );
@@ -671,6 +706,40 @@ class MonsterInsights_Rest_Routes {
 	public function dismiss_first_time_notice() {
 
 		monsterinsights_update_option( 'monsterinsights_first_run_notice', true );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Get the notice status by id.
+	 */
+	public function get_notice_status() {
+
+		check_ajax_referer( 'mi-admin-nonce', 'nonce' );
+
+		$notice_id = empty( $_POST['notice'] ) ? false : sanitize_text_field( wp_unslash( $_POST['notice'] ) );
+		if ( ! $notice_id ) {
+			wp_send_json_error();
+		}
+		$is_dismissed = MonsterInsights()->notices->is_dismissed( $notice_id );
+
+		wp_send_json_success( array(
+			'dismissed' => $is_dismissed,
+		) );
+	}
+
+	/**
+	 * Dismiss notices by id.
+	 */
+	public function dismiss_notice() {
+
+		check_ajax_referer( 'mi-admin-nonce', 'nonce' );
+
+		$notice_id = empty( $_POST['notice'] ) ? false : sanitize_text_field( wp_unslash( $_POST['notice'] ) );
+		if ( ! $notice_id ) {
+			wp_send_json_error();
+		}
+		MonsterInsights()->notices->dismiss( $notice_id );
 
 		wp_send_json_success();
 	}

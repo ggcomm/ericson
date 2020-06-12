@@ -47,10 +47,6 @@ final class MonsterInsights_Report_Dimensions extends MonsterInsights_Report {
 			return __( 'Please %s the MonsterInsights Dimensions addon to view custom dimensions reports.', 'ga-premium' );
 		}
 
-		if ( version_compare( MonsterInsights_Dimensions::get_instance()->version, '1.1.0', '<' ) ) {
-			return __( 'Please update the dimensions addon.', 'ga-premium' );
-		}
-
 		$dimensions = $this->get_active_enabled_custom_dimensions();
 		if ( empty( $dimensions ) || ! is_array( $dimensions ) ) {
 			add_filter( 'monsterinsights_reports_handle_error_message', array(

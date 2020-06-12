@@ -357,7 +357,7 @@ class WPMUDEV_Dashboard_Message {
 	public function maybe_setup_message() {
 		// Initialize the WPMUDEV message only for authorized admins.
 		if ( WPMUDEV_Dashboard::$site->allowed_user() ) {
-			add_action( 'all_admin_notices', array( $this, 'setup_message' ), 999 );			 					    	  			
+			add_action( 'all_admin_notices', array( $this, 'setup_message' ), 999 );
 		}
 	}
 
@@ -390,14 +390,13 @@ class WPMUDEV_Dashboard_Message {
 				$msg
 			);
 		} else {
-			WPMUDEV_Dashboard::$ui->load_sui_template(
-				'wpmudev_default_notice',
+			WPMUDEV_Dashboard::$ui->render(
+				'sui/wpmudev_default_notice',
 				array(
 					'module_url'=> WPMUDEV_Dashboard::$site->plugin_url . 'assets/js/',
 					'msg'		=> $msg,
 					'type'  	=> apply_filters( 'wpmudev_default_notice_type', 'info', $msg ), //use this filter to set notice types. Default is info.
-				),
-				true
+				)
 			);
 		}
 

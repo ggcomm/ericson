@@ -310,6 +310,8 @@ class WPMUDEV_Dashboard_Upgrader {
 		if ( 'direct' == get_filesystem_method() ) {
 			if ( 'plugin' == $type ) {
 				$root = WP_PLUGIN_DIR;
+			} elseif ( 'language' === $type ) {
+				$root = is_dir( WP_LANG_DIR ) ? WP_LANG_DIR : WP_CONTENT_DIR;
 			} else {
 				$root = WP_CONTENT_DIR . '/themes';
 			}
@@ -438,13 +440,13 @@ class WPMUDEV_Dashboard_Upgrader {
 			return false;
 		}
 
-		$project = WPMUDEV_Dashboard::$site->get_project_infos( $pid );
+		$project = WPMUDEV_Dashboard::$site->get_project_info( $pid );
 		$resp['type'] = $project->type;
 		$resp['filename'] = $project->filename;
 
 		// Upfront special: If updating a child theme or upfront dependant first update parent.
 		if ( $project->need_upfront ) {
-			$upfront = WPMUDEV_Dashboard::$site->get_project_infos( WPMUDEV_Dashboard::$site->id_upfront );
+			$upfront = WPMUDEV_Dashboard::$site->get_project_info( WPMUDEV_Dashboard::$site->id_upfront );
 
 			// Time condition to avoid repeated UF checks if there was an error.
 			$check = (int) WPMUDEV_Dashboard::$site->get_option( 'last_check_upfront' );
@@ -479,6 +481,7 @@ class WPMUDEV_Dashboard_Upgrader {
 		$this->clear_log();
 		$this->clear_version();
 
+
 		// Is a WPMU DEV project?
 		$is_dev = is_numeric( $pid );
 
@@ -496,6 +499,11 @@ class WPMUDEV_Dashboard_Upgrader {
 			$slug = ( 'plugin' == $type && false !== strpos( $filename, '/' ) ) ? dirname( $filename ) : $filename; //TODO can't update hello dolly "hello.php"
 		} else {
 			$this->set_error( $pid, 'UPG.07', __( 'Invalid upgrade call', 'wpmudev' ) );
+			return false;
+		}
+
+		if( ! $this->can_auto_install( $type ) ){
+			$this->set_error( $pid, 'UPG.10', __( 'Insufficient filesystem permissions', 'wpmudev' ) );
 			return false;
 		}
 
@@ -560,9 +568,15 @@ class WPMUDEV_Dashboard_Upgrader {
 		}
 
 		$this->log = $skin->get_upgrade_messages();
-
 		if ( is_wp_error( $skin->result ) ) {
-			$this->set_error( $pid, 'UPG.04', $skin->result->get_error_message() );
+			if ( in_array( $skin->result->get_error_code() , array( 'remove_old_failed', 'mkdir_failed_ziparchive' ) ) ) {
+				$this->set_error( $pid, 'UPG.10', $skin->get_error_messages() );
+			} else {
+				$this->set_error( $pid, 'UPG.04', $skin->result->get_error_message() );
+			}
+			return false;
+		} elseif ( in_array( $skin->get_errors()->get_error_code() , array( 'remove_old_failed', 'mkdir_failed_ziparchive' ) ) ) {
+			$this->set_error( $pid, 'UPG.10', $skin->get_error_messages() );
 			return false;
 		} elseif ( $skin->get_errors()->get_error_code() ) {
 			$this->set_error( $pid, 'UPG.09', $skin->get_error_messages() );
@@ -599,6 +613,102 @@ class WPMUDEV_Dashboard_Upgrader {
 	}
 
 	/**
+	 * Download and install a plugin translation files.
+	 *
+	 * A lot of logic is borrowed from ajax-actions.php
+	 *
+	 * @since  4.8.0
+	 * @param  string $slug Plugin slugs to upgrade translations.
+	 * @return bool True on success.
+	 */
+	public function upgrade_translation( $slug = '' ) {
+
+		$translations = $this->wp_format_translation_updates( $slug );
+		if ( empty( $translations ) ) {
+			$this->set_error( $slug, 'TUPG.01', __( 'WPMU Dev translations upto date', 'wpmudev' ) );
+			return false;
+		}
+
+		if( ! $this->can_auto_install( 'language' ) ){
+			$this->set_error( $slug, 'TUPG.02', __( 'Insufficient filesystem permissions', 'wpmudev' ) );
+			return false;
+		}
+
+		//for updating translations
+		include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+		$skin     = new WP_Ajax_Upgrader_Skin();
+		$upgrader = new Language_Pack_Upgrader( $skin );
+		$result   = false;
+		$success  = false;
+
+		$result   = $upgrader->bulk_upgrade( $translations );
+
+		$this->log = $skin->get_upgrade_messages();
+
+		if ( is_wp_error( $skin->get_errors() ) && ! $skin->result ) {
+			$this->set_error( $slug, 'TUPG.03', $skin->get_errors()->get_error_message() );
+			return false;
+		} elseif ( false === $result ) {
+			global $wp_filesystem;
+
+			$error = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+			// Pass through the error from WP_Filesystem if one was raised.
+			if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+				$error = esc_html( $wp_filesystem->errors->get_error_message() );
+			}
+
+			$this->set_error( $slug, 'TUPG.04', $error );
+			return false;
+		} elseif ( $result ) { //this is success!
+
+			// API call to inform wpmudev site about the change, as it's a single we can let it do that at the end to avoid multiple pings
+			WPMUDEV_Dashboard::$api->calculate_translation_upgrades( true );
+			return true;
+		}
+
+		// An unhandled error occurred.
+		$this->set_error( $slug, 'TUPG.05', __( 'Update failed for an unknown reason.', 'wpmudev' ) );
+		return false;
+	}
+
+	/**
+	 * Retrieves a list of all language updates available.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param  $slug string Slug of the plugin that we are to update
+	 *
+	 * @return object[] Array of translation objects that have available updates.
+	 *
+	 */
+	public function wp_format_translation_updates( $slug = '' ) {
+		$updates      = array();
+		$translations = WPMUDEV_Dashboard::$site->get_option( 'translation_updates_available' );
+
+		//if no translations avaialbe return empty
+		if ( empty( $translations ) ) {
+			return array();
+		}
+
+		//if empty slug return all available.
+		if( empty( $slug ) ) {
+			foreach ( $translations as $key => $value ) {
+				$updates[] = (object) $value;
+			}
+		} else {
+			foreach ( $translations as $key => $value ) {
+				if( $value['slug'] === $slug ) {
+					$updates[] = (object) $value;
+					break;
+				}
+			}
+		}
+		return $updates;
+	}
+
+	/**
 	 * Install a new plugin or theme.
 	 *
 	 * A lot of logic is borrowed from ajax-actions.php
@@ -622,7 +732,7 @@ class WPMUDEV_Dashboard_Upgrader {
 				return false;
 			}
 
-			$project = WPMUDEV_Dashboard::$site->get_project_infos( $pid );
+			$project = WPMUDEV_Dashboard::$site->get_project_info( $pid );
 			if ( ! $project ) {
 				$this->set_error( $pid, 'INS.04', __( 'Invalid project', 'wpmudev' ) );
 				return false;
@@ -630,6 +740,11 @@ class WPMUDEV_Dashboard_Upgrader {
 
 			$slug = 'wpmudev_install-' . $pid;
 			$type = $project->type;
+
+			if( ! $this->can_auto_install( $type ) ){
+				$this->set_error( $pid, 'INS.09', __( 'Insufficient filesystem permissions', 'wpmudev' ) );
+				return false;
+			}
 
 			// Make sure Upfront is available before an upfront theme or plugin is installed.
 			if ( $project->need_upfront && ! WPMUDEV_Dashboard::$site->is_upfront_installed() ) {
@@ -710,12 +825,18 @@ class WPMUDEV_Dashboard_Upgrader {
 		}
 
 		$this->log = $skin->get_upgrade_messages();
-
 		if ( is_wp_error( $result ) ) {
-			$this->set_error( $pid, 'INS.05', $result->get_error_message() );
+			if ( 'mkdir_failed_ziparchive' === $skin->$result->get_error_code() ) {
+				$this->set_error( $pid, 'INS.09', $skin->get_error_messages() );
+			} else {
+				$this->set_error( $pid, 'INS.05', $result->get_error_message() );
+			}
 			return false;
 		} elseif ( is_wp_error( $skin->result ) ) {
 			$this->set_error( $pid, 'INS.03', $skin->result->get_error_message() );
+			return false;
+		} elseif ( 'mkdir_failed_ziparchive' === $skin->get_errors()->get_error_code() ) {
+			$this->set_error( $pid, 'INS.09', $skin->get_error_messages() );
 			return false;
 		} elseif ( $skin->get_errors()->get_error_code() ) {
 			$this->set_error( $pid, 'INS.06', $skin->get_error_messages() );
@@ -1151,7 +1272,11 @@ class WPMUDEV_Dashboard_Upgrader {
 
 			return true;
 		} elseif ( is_wp_error( $result ) ) {
-			$this->set_error( $pid, $result->get_error_code(), $result->get_error_message() );
+			if ( 'could_not_remove_plugin' === $skin->$result->get_error_code() ) {
+				$this->set_error( $pid, 'DEL.10', $skin->get_error_messages() );
+			} else {
+				$this->set_error( $pid, $result->get_error_code(), $result->get_error_message() );
+			}
 
 			return false;
 		} else {

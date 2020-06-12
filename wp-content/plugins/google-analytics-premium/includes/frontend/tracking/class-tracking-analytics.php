@@ -251,6 +251,12 @@ class MonsterInsights_Tracking_Analytics extends MonsterInsights_Tracking_Abstra
 	  document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
 	  window[disableStr] = true;
 	}
+
+	if ( 'undefined' === typeof gaOptout ) {
+		function gaOptout() {
+			__gaTrackerOptout();
+		}
+	}
 	<?php } ?>
 
 	if ( mi_track_user ) {

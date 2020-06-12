@@ -88,17 +88,21 @@ else {
 															</div>
 														</div>
 													<?php endif; ?>
-													<?php if(sizeof($content_row['form_page_sidebar_block_col1_bullet']) > 0): ?>
-														<div class="row">
-															<div class="col">
-																<ul>
-																	<?php foreach ($content_row['form_page_sidebar_block_col1_bullet'] as $col1_bullet_key => $bullet): ?>
-																		<li><?php if(strlen($bullet['form_page_sidebar_block_col1_bullet_label'])): ?><?php echo $bullet['form_page_sidebar_block_col1_bullet_label']; ?> <?php endif; ?><?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['url'])): ?><a href="<?php echo $bullet['form_page_sidebar_block_col1_bullet_link']['url']; ?>" <?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['target'])): ?>target="<?php echo $bullet['form_page_sidebar_block_col1_bullet_link']['target']; ?>"<?php endif; ?>><?php endif; ?><?php if(strlen($bullet['form_page_sidebar_block_col1_bullet_text'])): ?><?php echo $bullet['form_page_sidebar_block_col1_bullet_text']; ?><?php endif; ?><?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['url'])): ?></a><?php endif; ?></li>
-																	<?php endforeach; ?>
-																</ul>
+
+													<?php if( is_array( $content_row['form_page_sidebar_block_col1_bullet'] )  ): ?>
+														<?php if(sizeof($content_row['form_page_sidebar_block_col1_bullet']) > 0): ?>
+															<div class="row">
+																<div class="col">
+																	<ul>
+																		<?php foreach ($content_row['form_page_sidebar_block_col1_bullet'] as $col1_bullet_key => $bullet): ?>
+																			<li><?php if(strlen($bullet['form_page_sidebar_block_col1_bullet_label'])): ?><?php echo $bullet['form_page_sidebar_block_col1_bullet_label']; ?> <?php endif; ?><?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['url'])): ?><a href="<?php echo $bullet['form_page_sidebar_block_col1_bullet_link']['url']; ?>" <?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['target'])): ?>target="<?php echo $bullet['form_page_sidebar_block_col1_bullet_link']['target']; ?>"<?php endif; ?>><?php endif; ?><?php if(strlen($bullet['form_page_sidebar_block_col1_bullet_text'])): ?><?php echo $bullet['form_page_sidebar_block_col1_bullet_text']; ?><?php endif; ?><?php if(isset($bullet['form_page_sidebar_block_col1_bullet_link']['url'])): ?></a><?php endif; ?></li>
+																		<?php endforeach; ?>
+																	</ul>
+																</div>
 															</div>
-														</div>
+														<?php endif; ?>
 													<?php endif; ?>
+
 												<?php endforeach; ?>
 											<?php endif; ?>
 										</div>
@@ -120,17 +124,21 @@ else {
 																</div>
 															</div>
 														<?php endif; ?>
-														<?php if(sizeof($content_row_2['form_page_sidebar_block_col2_bullet_copy']) > 0): ?>
-															<div class="row">
-																<div class="col">
-																	<ul>
-																		<?php foreach ($content_row_2['form_page_sidebar_block_col2_bullet_copy'] as $col2_bullet_key => $bullet_2): ?>
-																			<li><?php if(strlen($bullet_2['form_page_sidebar_block_col2_bullet_label'])): ?><?php echo $bullet_2['form_page_sidebar_block_col2_bullet_label']; ?> <?php endif; ?><?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['url'])): ?><a href="<?php echo $bullet_2['form_page_sidebar_block_col2_bullet_link']['url']; ?>" <?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['target'])): ?>target="<?php echo $bullet_2['form_page_sidebar_block_col2_bullet_link']['target']; ?>"<?php endif; ?>><?php endif; ?><?php if(strlen($bullet_2['form_page_sidebar_block_col2_bullet_text'])): ?><?php echo $bullet_2['form_page_sidebar_block_col2_bullet_text']; ?><?php endif; ?><?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['url'])): ?></a><?php endif; ?></li>
-																		<?php endforeach; ?>
-																	</ul>
+
+														<?php if( is_array( $content_row_2['form_page_sidebar_block_col2_bullet_copy'] ) ): ?>
+															<?php if(sizeof($content_row_2['form_page_sidebar_block_col2_bullet_copy']) > 0): ?>
+																<div class="row">
+																	<div class="col">
+																		<ul>
+																			<?php foreach ($content_row_2['form_page_sidebar_block_col2_bullet_copy'] as $col2_bullet_key => $bullet_2): ?>
+																				<li><?php if(strlen($bullet_2['form_page_sidebar_block_col2_bullet_label'])): ?><?php echo $bullet_2['form_page_sidebar_block_col2_bullet_label']; ?> <?php endif; ?><?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['url'])): ?><a href="<?php echo $bullet_2['form_page_sidebar_block_col2_bullet_link']['url']; ?>" <?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['target'])): ?>target="<?php echo $bullet_2['form_page_sidebar_block_col2_bullet_link']['target']; ?>"<?php endif; ?>><?php endif; ?><?php if(strlen($bullet_2['form_page_sidebar_block_col2_bullet_text'])): ?><?php echo $bullet_2['form_page_sidebar_block_col2_bullet_text']; ?><?php endif; ?><?php if(isset($bullet_2['form_page_sidebar_block_col2_bullet_link']['url'])): ?></a><?php endif; ?></li>
+																			<?php endforeach; ?>
+																		</ul>
+																	</div>
 																</div>
-															</div>
+															<?php endif; ?>
 														<?php endif; ?>
+
 													<?php endforeach; ?>
 												<?php endif; ?>
 											</div>

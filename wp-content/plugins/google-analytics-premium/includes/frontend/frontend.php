@@ -156,8 +156,11 @@ function monsterinsights_frontend_admin_bar_scripts() {
 
 	if ( ! defined( 'MONSTERINSIGHTS_LOCAL_FRONTEND_JS_URL' ) ) {
 		wp_enqueue_style( 'monsterinsights-vue-frontend-style', plugins_url( $version_path . '/assets/vue/css/frontend' . $rtl . '.css', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version() );
-		wp_enqueue_script( 'monsterinsights-vue-vendors', plugins_url( $version_path . '/assets/vue/js/chunk-vendors.js', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version(), true );
+		wp_enqueue_script( 'monsterinsights-vue-vendors', plugins_url( $version_path . '/assets/vue/js/chunk-frontend-vendors.js', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version(), true );
 		wp_enqueue_script( 'monsterinsights-vue-common', plugins_url( $version_path . '/assets/vue/js/chunk-common.js', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version(), true );
+	} else {
+		wp_enqueue_script( 'monsterinsights-vue-vendors', MONSTERINSIGHTS_LOCAL_VENDORS_JS_URL, array(), monsterinsights_get_asset_version(), true );
+		wp_enqueue_script( 'monsterinsights-vue-common', MONSTERINSIGHTS_LOCAL_COMMON_JS_URL, array(), monsterinsights_get_asset_version(), true );
 	}
 
 	wp_register_script( 'monsterinsights-vue-frontend', $frontend_js_url, array(), monsterinsights_get_asset_version(), true );
@@ -208,8 +211,8 @@ function monsterinsights_administrator_tracking_notice() {
 		return;
 	}
 
-	// Only show this for users who can see the settings panel.
-	if ( ! current_user_can( 'monsterinsights_save_settings' ) ) {
+	// Only show this to users who are not tracked.
+	if ( monsterinsights_track_user() ) {
 		return;
 	}
 
@@ -223,6 +226,9 @@ function monsterinsights_administrator_tracking_notice() {
 	if ( get_option( 'monsterinsights_frontend_tracking_notice_viewed', false ) ) {
 		return;
 	}
+
+	// Automatically dismiss when loaded.
+	update_option( 'monsterinsights_frontend_tracking_notice_viewed', 1 );
 
 	?>
 	<div class="monsterinsights-tracking-notice monsterinsights-tracking-notice-hide">
@@ -378,3 +384,16 @@ function monsterinsights_dismiss_tracking_notice() {
 }
 
 add_action( 'wp_ajax_monsterinsights_dismiss_tracking_notice', 'monsterinsights_dismiss_tracking_notice' );
+
+/**
+ * If the legacy shortcodes are not registered, make sure they don't output.
+ */
+function monsterinsights_maybe_handle_legacy_shortcodes() {
+
+	if ( ! shortcode_exists( 'gadwp_useroptout' ) ) {
+		add_shortcode( 'gadwp_useroptout', '__return_empty_string' );
+	}
+
+}
+
+add_action( 'init', 'monsterinsights_maybe_handle_legacy_shortcodes', 1000 );

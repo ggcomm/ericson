@@ -41,6 +41,9 @@ class Generic_Plugin_Admin {
 		add_action( 'admin_init_w3tc_dashboard', array(
 				'\W3TC\Generic_WidgetServices',
 				'admin_init_w3tc_dashboard' ) );
+		add_action( 'admin_init_w3tc_dashboard', array(
+				'\W3TC\Generic_WidgetBoldGrid',
+				'admin_init_w3tc_dashboard' ) );
 
 		add_action( 'admin_enqueue_scripts', array(
 				$this,
@@ -266,6 +269,7 @@ class Generic_Plugin_Admin {
 			else
 				$profile = 'UA-2264433-8';
 
+			$state = Dispatcher::config_state();
 ?>
 			<script type="text/javascript">
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -283,7 +287,9 @@ class Generic_Plugin_Admin {
 					'dimension5': '<?php echo esc_attr( $_SERVER["SERVER_SOFTWARE"] ) ?>',
 					'dimension6': 'mysql<?php global $wpdb; echo $wpdb->db_version() ?>',
 					'dimension7': '<?php echo Util_Environment::home_url_host() ?>',
-					'userId': '<?php echo $current_user->user_email ?>',
+					'dimension9': '<?php echo esc_attr( $state->get_string( 'common.install_version' ) ) ?>',
+					'dimension10': '<?php echo esc_attr( Util_Environment::w3tc_edition( $this->_config ) ) ?>',
+					'dimension11': '<?php echo esc_attr( Util_Widget::list_widgets() ) ?>',
 					'page': '<?php echo $page ?>'
 				});
 
@@ -302,6 +308,13 @@ class Generic_Plugin_Admin {
 			font-family: 'w3tc';
 		}
 		</style>
+		<script>
+		jQuery(document).ready( function($) {
+			$('#toplevel_page_w3tc_dashboard ul li').find('a[href*="w3tc_faq"]')
+				.prop('target','_blank')
+				.prop('href', <?php echo json_encode(W3TC_FAQ_URL) ?>);
+		});
+		</script>
 		<?php
 	}
 

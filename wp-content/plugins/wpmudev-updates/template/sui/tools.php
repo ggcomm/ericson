@@ -134,7 +134,7 @@ $this->render_sui_header( $page_title, $page_slug );
 
 					<p><?php esc_html_e( "Add basic analytics tracking that doesn't require any third party integration, and display the data in the WordPress Admin Dashboard area.", 'wpmudev' ); ?></p>
 
-					<div class="sui-notice sui-notice-info">
+					<div class="sui-notice sui-notice-info" style="margin-bottom:0;">
 
 						<p class="sui-notice-content">
 							<?php printf(
@@ -142,9 +142,8 @@ $this->render_sui_header( $page_title, $page_slug );
 								esc_html( $role_name )
 							); ?>
 						</p>
-
 					</div>
-
+					<span class="sui-description" style="margin: 10px 0 30px 0;"><?php esc_html_e( 'Note: IP addresses are anonymized when stored and meet GDPR recommendations.', 'wpmudev' ); ?></span>
 					<div class="sui-box-settings-row">
 
 						<div class="sui-box-settings-col-1">
@@ -390,28 +389,33 @@ $this->render_sui_header( $page_title, $page_slug );
 											<label class="sui-label"><?php esc_html_e( 'Upload Logo (optional)', 'wpmudev' ); ?></label>
 
 											<div id="branding_upload"
-											     class="sui-upload <?php echo esc_attr( $whitelabel_settings['branding_image'] ? 'sui-has_file' : '' ); ?>">
+												class="sui-upload <?php echo esc_attr( $whitelabel_settings['branding_image'] ? 'sui-has_file' : '' ); ?>">
 
 												<div class="sui-hidden">
 													<input type="url"
-													       name="branding_image"
-													       id="branding_image"
-													       readonly="readonly"
-													       value="<?php echo esc_attr( $whitelabel_settings['branding_image'] ); ?>">
+														name="branding_image"
+														id="branding_image"
+														readonly="readonly"
+														value="<?php echo esc_attr( $whitelabel_settings['branding_image'] ); ?>">
 												</div>
-
+												<input type="hidden"
+												name="branding_image_id"
+												id="branding_image_id"
+												readonly="readonly"
+												value="<?php echo esc_attr( $whitelabel_settings['branding_image_id'] ); ?>">
 												<div class="sui-upload-image" aria-hidden="true">
 													<div class="sui-image-mask"></div>
 													<div role="button"
-													     class="sui-image-preview wp-browse-media"
-													     data-frame-title="<?php esc_html_e( 'Select or Upload Media for Branding Logo', 'wpmudev' ); ?>"
-													     data-button-text="<?php esc_html_e( 'Use this as Branding Logo', 'wpmudev' ); ?>"
-													     data-input-id="branding_image"
-													     data-preview-id="branding_image_preview"
-													     data-upload-wrapper-id="branding_upload"
-													     data-text-id="branding_image_text"
-													     id="branding_image_preview"
-													     style="background-image: url('<?php echo esc_url( $whitelabel_settings['branding_image'] ); ?>');">
+														class="sui-image-preview wp-browse-media"
+														data-frame-title="<?php esc_html_e( 'Select or Upload Media for Branding Logo', 'wpmudev' ); ?>"
+														data-button-text="<?php esc_html_e( 'Use this as Branding Logo', 'wpmudev' ); ?>"
+														data-input-id="branding_image"
+														data-preview-id="branding_image_preview"
+														data-upload-wrapper-id="branding_upload"
+														data-input-id-container="branding_image_id"
+														data-text-id="branding_image_text"
+														id="branding_image_preview"
+														style="background-image: url('<?php echo esc_url( $whitelabel_settings['branding_image'] ); ?>');">
 													</div>
 												</div>
 
@@ -436,13 +440,27 @@ $this->render_sui_header( $page_title, $page_slug );
 
 												</div>
 
-
 											</div>
 
 											<span class="sui-description"><?php esc_html_e( 'Maximum height and width of logo should be 192px and 172px respectively. This Logo will appear only in the dashboard section of each WPMU DEV plugin you have installed that supports this feature.', 'wpmudev' ); ?></span>
 
 										</div>
-
+										<?php if( is_multisite() ): ?>
+											<div class="sui-form-field">
+												<label class="sui-toggle">
+													<input
+														type="checkbox"
+														name="branding_enabled_subsite"
+														value="1"
+														id="branding_enabled_subsite"
+														<?php checked( $whitelabel_settings['branding_enabled_subsite'] ); ?>
+													/>
+													<span class="sui-toggle-slider"></span>
+												</label>
+												<label for="branding_enabled_subsite" class="sui-toggle-label"><?php esc_html_e( 'Allow Subsite Admins to override', 'wpmudev' ); ?></label>
+												<span class="sui-description"><?php esc_html_e( 'By default, subsites will inherit the main branding set here. With this setting enabled, we will use the logo set in the Customizer Menu as the branding across plugins.', 'wpmudev' ); ?></span>
+											</div>
+										<?php endif; ?>
 									</div>
 
 								</div>
@@ -523,6 +541,32 @@ $this->render_sui_header( $page_title, $page_slug );
 
 					</div>
 
+					<?php
+					// SETTING: Admin Menu Labels ?>
+					<div class="sui-box-settings-row">
+
+						<div class="sui-box-settings-col-1">
+							<span class="sui-settings-label"><?php esc_html_e( 'Admin Menu Labels', 'wpmudev' ); ?></span>
+							<span class="sui-description"><?php esc_html_e( 'Adjust the WordPress Admin menu labels to suit your white label needs.', 'wpmudev' ); ?></span>
+						</div>
+
+						<div class="sui-box-settings-col-2">
+							<?php
+							$branda_url = $urls->plugins_url . '#pid=9135';
+							$branda = WPMUDEV_Dashboard::$site->get_project_info( '9135' );
+							?>
+							<p class="sui-description" style="margin-bottom: 10px;"> <?php printf( esc_html__( '%s allows you to fully white label and brand the WordPress Admin interface. Use the Admin Menu module to rename and adjust your sidebar links.', 'wpmudev' ), '<a href="' . esc_url( $branda_url ) . '">Branda Pro</a>' ); ?></p>
+							<?php if ( ! $branda->is_installed || ! $branda->is_active ) { ?>
+								<a href="<?php echo esc_url( $branda_url ); ?> " role="button" class="sui-button">
+									<i class="sui-icon-plus" aria-hidden="true"></i>
+									<?php ( ! $branda->is_active && $branda->is_installed ) ? esc_html_e( 'Activate Branda Pro', 'wpmudev' ) : esc_html_e( 'Install Branda Pro', 'wpmudev' ); ?>
+								</a>
+							<?php } else { ?>
+								<a href="<?php echo esc_url( $branda->url->config ); ?> " role="button" class="sui-button"><i class="sui-icon-wrench-tool" aria-hidden="true"></i><?php esc_html_e( 'Configure', 'wpmudev' ); ?> </a>
+							<?php } ?>
+						</div>
+
+					</div>
 					<?php
 					// SETTING: Documentation Links ?>
 					<div class="sui-box-settings-row">
@@ -646,4 +690,5 @@ $this->render_sui_header( $page_title, $page_slug );
 
 </div>
 
-<?php $this->load_sui_template( 'footer', array(), true ); ?>
+<?php $this->render_with_sui_wrapper( 'sui/element-last-refresh' ); ?>
+<?php $this->render_with_sui_wrapper( 'sui/footer' );

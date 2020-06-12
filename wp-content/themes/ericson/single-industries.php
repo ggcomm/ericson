@@ -13,8 +13,10 @@ $industry_info = array();
 foreach ($industries as $key => $industry) {
 	$industry_id = $industry->ID;
 	$taxonomy_term = get_the_terms( $industry_id, 'industry' );
-	$industry_term = array_shift( $taxonomy_term );
-	$industry_content['taxonomy_id'] = $industry_term->term_id;
+  if( is_array($taxonomy_term) ){
+    $industry_term = array_shift( $taxonomy_term );
+  }
+  $industry_content['taxonomy_id'] = $industry_term->term_id;
 	$industry_content['taxonomy_slug'] = $industry_term->slug;
 	$industry_content['taxonomy_title'] = $industry_term->name;
 	$industry_marquee = get_field('industry_marquee', $industry_id);
@@ -185,7 +187,7 @@ $industry_sidebar_sections = $industry_sidebar['industry_sidebar_section'];
 					<?php if( isset($industry_sidebar_sections) ): ?>
 						<div class="row">
 							<div class="col sidebar-section">
-								<?php foreach ($industry_sidebar_sections as $key => $section): 
+								<?php foreach ($industry_sidebar_sections as $key => $section):
 									$section_id = $section['industry_offer']->ID;
 									$section_type = $section['industry_offer']->post_type;
 									$section_status = $section['industry_offer']->post_status;
@@ -202,7 +204,7 @@ $industry_sidebar_sections = $industry_sidebar['industry_sidebar_section'];
 										$section_button_text = 'View Case Study';
 										$section_button_link = get_permalink($section_id);
 
-										$cs_industry = get_field('case_study_industry');
+										$cs_industry = get_field('case_study_industry', $section_id);
 										$filterBy = $cs_industry;
 										$case_study_industry = array_filter($industry_info, function ($var) use ($filterBy) {return ($var['taxonomy_id'] == $filterBy);});
 										$key = key($case_study_industry);

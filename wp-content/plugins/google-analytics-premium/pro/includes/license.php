@@ -1,6 +1,6 @@
 <?php
 /**
- * License class.  
+ * License class.
  *
  * Helper for licenses.
  *
@@ -94,7 +94,7 @@ final class MonsterInsights_License {
 		return ( ! empty( $this->network['key'] ) && is_string( $this->network['key'] ) && strlen( $this->network['key'] ) > 10 ) ? $this->network['key'] : '';
 	}
 
-	public function has_license() { 
+	public function has_license() {
 		return $this->licensed;
 	}
 
@@ -150,7 +150,7 @@ final class MonsterInsights_License {
 			   return true;
 			}
 		}
-	}	
+	}
 	public function time_to_check_network_license(){
 		$timestamp = get_site_option( 'monsterinsights_network_license_updates' );
 		if ( ! $timestamp ) {
@@ -216,7 +216,7 @@ final class MonsterInsights_License {
 		;
 	}
 	public function network_license_has_error(){
-		return 
+		return
 				  $this->network_license_expired()  // is expired
 			   || $this->network_license_disabled()  // is disabled
 			   || $this->network_license_invalid()  // is invalid
@@ -227,7 +227,7 @@ final class MonsterInsights_License {
 		if ( ! $this->has_license() ) {
 			return false;
 		}
-		
+
 		return $this->using_network_license() ? $this->network_license_expired() : $this->site_license_expired();
 	}
 	public function site_license_expired(){
@@ -241,7 +241,7 @@ final class MonsterInsights_License {
 		if ( ! $this->has_license() ) {
 			return false;
 		}
-		
+
 		return $this->using_network_license() ? $this->network_license_disabled() : $this->site_license_disabled();
 	}
 	public function site_license_disabled() {
@@ -255,7 +255,7 @@ final class MonsterInsights_License {
 		if ( ! $this->has_license() ) {
 			return false;
 		}
-		
+
 		return $this->using_network_license() ? $this->network_license_invalid() : $this->site_license_invalid();
 	}
 	public function site_license_invalid() {
@@ -270,11 +270,12 @@ final class MonsterInsights_License {
 		if ( ! $this->has_license() ) {
 			return false;
 		}
-		
+
 		return $this->using_network_license() ? $this->get_network_license_error() : $this->get_site_license_error();
 	}
 	public function get_site_license_error(){
 		if ( $this->site_license_expired() ) {
+			// Translators: Adds a link to renew the license.
 			return sprintf( esc_html__( 'Your license key for MonsterInsights has expired. %1$sPlease click here to renew your license key.%2$s', 'google-analytics-for-wordpress' ), '<a href="'. monsterinsights_get_url( 'license-error', 'expired-license', 'https://www.monsterinsights.com/login/' ) .'" target="_blank" rel="noopener noreferrer" referrer="no-referrer">', '</a>' );
 		} else if ( $this->site_license_disabled() ) {
 			return esc_html__( 'Your license key for MonsterInsights has been disabled. Please use a different key.', 'google-analytics-for-wordpress' );
@@ -286,6 +287,7 @@ final class MonsterInsights_License {
 
 	public function get_network_license_error(){
 		if ( $this->site_license_expired() ) {
+			// Translators: Adds a link to the license renewal.
 			return sprintf( esc_html__( 'Your license key for MonsterInsights has expired. %1$sPlease click here to renew your license key.%2$s', 'google-analytics-for-wordpress' ), '<a href="'. monsterinsights_get_url( 'license-error', 'expired-license', 'https://www.monsterinsights.com/login/' ) .'" target="_blank" rel="noopener noreferrer" referrer="no-referrer">', '</a>' );
 		} else if ( $this->site_license_disabled() ) {
 			return esc_html__( 'Your license key for MonsterInsights has been disabled. Please use a different key.', 'google-analytics-for-wordpress' );
@@ -295,7 +297,7 @@ final class MonsterInsights_License {
 		return '';
 	}
 
-	public function license_can( $requires = 'lite' ) {		
+	public function license_can( $requires = 'lite' ) {
 		if ( ! monsterinsights_is_pro_version() || ! $this->has_license() ) {
 			return $requires === 'lite';
 		}

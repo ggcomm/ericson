@@ -56,5 +56,9 @@ final class MonsterInsights_Admin_Pro_Reports {
 		$realtime_report = new MonsterInsights_Report_RealTime();
 		MonsterInsights()->reporting->add_report( $realtime_report );
 
+		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'pro/includes/admin/reports/report-year-in-review.php';
+		$year_in_review = new MonsterInsights_Report_YearInReview();
+		MonsterInsights()->reporting->add_report( $year_in_review );
+
 	}
 }

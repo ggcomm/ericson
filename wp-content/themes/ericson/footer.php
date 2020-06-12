@@ -126,16 +126,7 @@ s.parentNode.insertBefore(wt, s);
 <noscript><img src="https://www.webtraxs.com/webtraxs.php?id=ericson&st=img" alt="" /></noscript>
 <!-- End WebTrax -->
 
-<script type="text/javascript">
-var fesdpid = '2nYR2oYK6Z';
-var fesdpextid = '5d12144d';
-var __ibaseUrl = (("https:" == document.location.protocol) ? "https://fe.sitedataprocessing.com" : "http://fe.sitedataprocessing.com");
-(function () {
-var va = document.createElement('script'); va.type = 'text/javascript'; va.async = true;
-va.src = __ibaseUrl + '/cscripts/' + fesdpid + '-' + fesdpextid + '.js';
-var sv = document.getElementsByTagName('script')[0]; sv.parentNode.insertBefore(va, sv);
-})();
-</script>
+
 
 <script type="text/javascript">
 _linkedin_partner_id = "214282";

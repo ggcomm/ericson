@@ -26,6 +26,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 	public static $default_options = array(
 		'width'       => 'regular',
 		'interval'    => '30',
+		'compact'     => 'false',
 		'reports'     => array(
 			'overview'  => array(
 				'toppages'    => true,
@@ -131,6 +132,9 @@ class MonsterInsights_Dashboard_Widget_Pro {
 				wp_enqueue_style( 'monsterinsights-vue-widget-style', plugins_url( $version_path . '/assets/vue/css/widget' . $rtl . '.css', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version() );
 				wp_enqueue_script( 'monsterinsights-vue-vendors', plugins_url( $version_path . '/assets/vue/js/chunk-vendors.js', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version(), true );
 				wp_enqueue_script( 'monsterinsights-vue-common', plugins_url( $version_path . '/assets/vue/js/chunk-common.js', MONSTERINSIGHTS_PLUGIN_FILE ), array(), monsterinsights_get_asset_version(), true );
+			} else {
+				wp_enqueue_script( 'monsterinsights-vue-vendors', MONSTERINSIGHTS_LOCAL_VENDORS_JS_URL, array(), monsterinsights_get_asset_version(), true );
+				wp_enqueue_script( 'monsterinsights-vue-common', MONSTERINSIGHTS_LOCAL_COMMON_JS_URL, array(), monsterinsights_get_asset_version(), true );
 			}
 			$widget_js_url = defined( 'MONSTERINSIGHTS_LOCAL_WIDGET_JS_URL' ) && MONSTERINSIGHTS_LOCAL_WIDGET_JS_URL ? MONSTERINSIGHTS_LOCAL_WIDGET_JS_URL : plugins_url( $version_path . '/assets/vue/js/widget.js', MONSTERINSIGHTS_PLUGIN_FILE );
 			wp_register_script( 'monsterinsights-vue-widget', $widget_js_url, array(), monsterinsights_get_asset_version(), true );
@@ -185,6 +189,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 					'activate_nonce'      => wp_create_nonce( 'monsterinsights-activate' ),
 					'getting_started_url' => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/about/getting-started' ) : admin_url( 'admin.php?page=monsterinsights_settings#/about/getting-started' ),
 					'wizard_url'          => admin_url( 'index.php?page=monsterinsights-onboarding' ),
+					'timezone'            => date( 'e' ),
 				)
 			);
 
@@ -229,6 +234,7 @@ class MonsterInsights_Dashboard_Widget_Pro {
 		$options = array(
 			'width'       => ! empty( $_POST['width'] ) ? sanitize_text_field( wp_unslash( $_POST['width'] ) ) : $default['width'],
 			'interval'    => ! empty( $_POST['interval'] ) ? absint( wp_unslash( $_POST['interval'] ) ) : $default['interval'],
+			'compact'     => ! empty( $_POST['compact'] ) ? 'true' === sanitize_text_field( wp_unslash( $_POST['compact'] ) ) : $default['compact'],
 			'reports'     => $reports,
 			'notice30day' => $current_options['notice30day'],
 		);
@@ -286,9 +292,13 @@ class MonsterInsights_Dashboard_Widget_Pro {
 		$url = is_network_admin() ? network_admin_url( 'admin.php?page=monsterinsights-onboarding' ) : admin_url( 'admin.php?page=monsterinsights-onboarding' );
 		?>
 		<div class="mi-dw-not-authed">
-			<h2><?php esc_html_e( 'Website Analytics is not Setup', 'google-analytics-for-wordpress' ); ?></h2>
-			<p><?php esc_html_e( 'To see your website stats, please connect MonsterInsights to Google Analytics.', 'google-analytics-for-wordpress' ); ?></p>
-			<a href="<?php echo esc_url( $url ); ?>" class="mi-dw-btn-large"><?php esc_html_e( 'Setup Website Analytics', 'google-analytics-for-wordpress' ); ?></a>
+			<h2><?php esc_html_e( 'Website Analytics is not Setup', 'ga-premium' ); ?></h2>
+			<?php if ( current_user_can( 'monsterinsights_save_settings' ) ) { ?>
+				<p><?php esc_html_e( 'To see your website stats, please connect MonsterInsights to Google Analytics.', 'ga-premium' ); ?></p>
+			<a href="<?php echo esc_url( $url ); ?>" class="mi-dw-btn-large"><?php esc_html_e( 'Setup Website Analytics', 'ga-premium' ); ?></a>
+			<?php } else { ?>
+				<p><?php esc_html_e( 'To see your website stats, please ask your webmaster to connect MonsterInsights to Google Analytics.', 'ga-premium' ); ?></p>
+			<?php } ?>
 		</div>
 		<?php
 	}

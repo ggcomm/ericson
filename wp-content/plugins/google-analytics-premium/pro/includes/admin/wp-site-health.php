@@ -339,7 +339,8 @@ class MonsterInsights_WP_Site_Health {
 			'test'        => 'monsterinsights_ecommerce',
 		);
 
-		if ( empty( monsterinsights_get_ua() ) ) {
+		$ua = monsterinsights_get_ua();
+		if ( empty( $ua ) ) {
 			$result['status']      = 'recommended';
 			$result['label']       = __( 'eCommerce data is not being tracked', 'ga-premium' );
 			$result['description'] = __( 'Please connect MonsterInsights to Google Analytics to start tracking eCommerce data.', 'ga-premium' );
@@ -359,7 +360,8 @@ class MonsterInsights_WP_Site_Health {
 				__( 'View Addons', 'ga-premium' )
 			);
 
-			if ( in_array( MonsterInsights()->license->get_license_type(), array( 'basic', 'plus' ), true ) ) {
+			$type = MonsterInsights()->license->get_license_type();
+			if ( in_array( $type, array( 'basic', 'plus' ), true ) ) {
 				$result['actions'] = sprintf(
 					'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s</a></p>',
 					monsterinsights_get_upgrade_link( 'site-health', 'ecommerce', 'https://monsterinsights.com/my-account' ),

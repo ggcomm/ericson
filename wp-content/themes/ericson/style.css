@@ -561,8 +561,8 @@ nav.navbar .navbar-brand img {
 }
 nav.navbar-expand-lg .navbar-nav .nav-link {
 	color: #005195;
-	padding-right: 2rem;
-  padding-left: 2rem;
+	padding-right: 1rem;
+  	padding-left: 1rem;
 }
 
 nav.navbar-expand-lg .navbar-nav > .nav-item:hover {
@@ -821,13 +821,7 @@ nav .navbar-nav .nav-link > .fas {
 	font-family: 'Exo 2', sans-serif;
 	font-weight: 700;
 	font-size: 100px;
-	/* text-stroke-width: 1.5px;
-	text-stroke-color: #012f55; */
-	text-fill-color: rgba(255, 255, 255, 0.8);
-	/* -webkit-text-stroke-width: 1.5px;
-	-webkit-text-stroke-color: #012f55; */
-	-webkit-text-fill-color: rgba(255, 255, 255, 0.8);
-	color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255);
 	text-shadow: 1px 1px #012f55, -1px -1px #012f55, 1px -1px #012f55, -1px 1px #012f55;
 	letter-spacing: 1px;
 	line-height: 1em;

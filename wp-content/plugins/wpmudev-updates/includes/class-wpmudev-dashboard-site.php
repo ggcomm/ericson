@@ -105,11 +105,18 @@ class WPMUDEV_Dashboard_Site {
 	protected static $_cache_pluginupdates = false;
 
 	/**
+	 * Caches the modified plugin-translation transient.
+	 *
+	 * @var array
+	 */
+	protected static $_cache_translationupdates = false;
+
+	/**
 	 * Stores return values of get_project_infos()
 	 *
 	 * @var array
 	 */
-	protected static $_cache_projectinfos = false;
+	protected static $_cache_project_info = false;
 
 	/**
 	 * The noticeid of the SSO notice
@@ -146,6 +153,7 @@ class WPMUDEV_Dashboard_Site {
 			'wdp-project-update',
 			'wdp-project-install',
 			'wdp-project-install-upfront',
+			'wdp-translation-update',
 			'wdp-projectsearch',
 			'wdp-usersearch',
 			'wdp-save-setting',
@@ -234,6 +242,7 @@ class WPMUDEV_Dashboard_Site {
 			'site_transient_update_plugins',
 			array( $this, 'filter_plugin_update_count' )
 		);
+
 		add_filter(
 			'site_transient_update_themes',
 			array( $this, 'filter_theme_update_count' )
@@ -329,6 +338,12 @@ class WPMUDEV_Dashboard_Site {
 			10,
 			2
 		);
+
+		add_filter(
+			'ajax_query_attachments_args',
+			array( $this, 'user_can_edit_branding_image')
+		);
+
 	}
 
 	/**
@@ -599,7 +614,6 @@ class WPMUDEV_Dashboard_Site {
 	protected function _process_action( $action ) {
 		do_action( 'wpmudev_dashboard_action-' . $action );
 		$success = 'SILENT';
-
 		switch ( $action ) {
 			// Tab: Support
 			// Function Grant support access.
@@ -668,6 +682,7 @@ class WPMUDEV_Dashboard_Site {
 				WPMUDEV_Dashboard::$site->set_option( 'refresh_profile_flag', 1 );
 				WPMUDEV_Dashboard::$api->refresh_projects_data();
 				WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
+
 				// un silent message
 				$success = true;
 				break;
@@ -694,9 +709,19 @@ class WPMUDEV_Dashboard_Site {
 								'option_name' => 'whitelabel_branding_enabled',
 								'default'     => false,
 							),
+							'branding_enabled_subsite'  => array(
+								'option_name'   => 'branding_enabled_subsite',
+								'expected_type' => 'boolean',
+								'default'       => false,
+							),
 							'branding_image'    => array(
 								'option_name' => 'whitelabel_branding_image',
 								'default'     => '',
+							),
+							'branding_image_id'    => array(
+								'option_name' => 'whitelabel_branding_image_id',
+								'default'     => '',
+
 							),
 							'footer_enabled'    => array(
 								'option_name' => 'whitelabel_footer_enabled',
@@ -768,6 +793,22 @@ class WPMUDEV_Dashboard_Site {
 						$success = false;
 						break;
 				}
+				break;
+
+			// setup translation updates
+			case 'translation-setup':
+				$locale = empty( $_REQUEST['selected_locale'] ) ? 'en_US' : $_REQUEST['selected_locale'];
+				$enable_auto_translation = isset( $_REQUEST['enable_auto_translation'] ) ? absint( $_REQUEST['enable_auto_translation'] ) : 0;
+				$this->set_option( 'enable_auto_translation', $enable_auto_translation );
+				$prev_locale = WPMUDEV_Dashboard::$site->get_option( 'translation_locale' );
+				$this->set_option( 'translation_locale', $locale );
+
+				//hub-sync to check prev locale
+				if ( $prev_locale !== $locale ) {
+					// Also, force a hub-sync, since the translation setting changed.
+					WPMUDEV_Dashboard::$api->calculate_translation_upgrades( true );
+				}
+
 				break;
 
 			// setup autoupdate dashboard
@@ -843,7 +884,6 @@ class WPMUDEV_Dashboard_Site {
 
 		$action = str_replace( 'wdp-', '', $_REQUEST['action'] );
 		$nonce  = $_REQUEST['hash'];
-
 		// Do nothing if the nonce is invalid.
 		if ( ! wp_verify_nonce( $nonce, $action ) ) {
 			wp_send_json_error(
@@ -965,6 +1005,24 @@ class WPMUDEV_Dashboard_Site {
 						}
 						$this->clear_local_file_cache();
 						WPMUDEV_Dashboard::$ui->render_project( $pid, $other_pids, false, true );
+					}
+					break;
+				case 'translation-update':
+
+					//we work with slug on translation update.
+					$pid = $_REQUEST['slug'];
+					if ( $pid ) {
+						$success = WPMUDEV_Dashboard::$upgrader->upgrade_translation( $pid );
+
+						if ( $success ) {
+							$this->clear_local_file_cache();
+							$this->send_json_success();
+						}
+
+						$err = WPMUDEV_Dashboard::$upgrader->get_error();
+
+						$this->send_json_error( $err );
+
 					}
 					break;
 
@@ -1230,6 +1288,7 @@ class WPMUDEV_Dashboard_Site {
 								// Since we auto install, we need to associate SSO with the correct user.
 								WPMUDEV_Dashboard::$site->set_option( 'sso_userid', $current_user->ID );
 							}
+
 						}
 						$this->send_json_success(
 							array(
@@ -1655,17 +1714,17 @@ class WPMUDEV_Dashboard_Site {
 	 *
 	 * @return object Details about the project.
 	 */
-	public function get_project_infos( $pid, $fetch_full = false ) {
+	public function get_project_info( $pid, $fetch_full = false ) {
 		$pid              = intval( $pid );
 		$is_network_admin = is_multisite(); // If multisite we only ever do things in network admin
 		$urls             = WPMUDEV_Dashboard::$ui->page_urls;
 
-		if ( ! is_array( self::$_cache_projectinfos ) ) {
-			self::$_cache_projectinfos = array();
+		if ( ! is_array( self::$_cache_project_info ) ) {
+			self::$_cache_project_info = array();
 		}
 
 		//build data if it's not cached or we need changelog and the changelog is missing from cache
-		if ( ! isset( self::$_cache_projectinfos[ $pid ] ) || ( $fetch_full && ! count( self::$_cache_projectinfos[ $pid ]->changelog ) ) ) {
+		if ( ! isset( self::$_cache_project_info[ $pid ] ) || ( $fetch_full && ! count( self::$_cache_project_info[ $pid ]->changelog ) ) ) {
 			$res = (object) array(
 				'pid'                 => $pid,
 				'type'                => '', // Possible: 'plugin' or 'theme'.
@@ -1716,7 +1775,7 @@ class WPMUDEV_Dashboard_Site {
 
 			$remote = WPMUDEV_Dashboard::$api->get_project_data( $pid );
 			if ( empty( $remote ) ) {
-				self::$_cache_projectinfos[ $pid ] = false;
+				self::$_cache_project_info[ $pid ] = false;
 
 				return false;
 			}
@@ -1932,17 +1991,17 @@ class WPMUDEV_Dashboard_Site {
 
 			}
 
-			self::$_cache_projectinfos[ $pid ] = $res;
+			self::$_cache_project_info[ $pid ] = $res;
 		}
 
 		// Following flags are not cached.
-		if ( self::$_cache_projectinfos[ $pid ] && is_object( self::$_cache_projectinfos[ $pid ] ) ) {
-			self::$_cache_projectinfos[ $pid ]->is_network_admin = $is_network_admin;
+		if ( self::$_cache_project_info[ $pid ] && is_object( self::$_cache_project_info[ $pid ] ) ) {
+			self::$_cache_project_info[ $pid ]->is_network_admin = $is_network_admin;
 		} else {
-			self::$_cache_projectinfos[ $pid ] = false;
+			self::$_cache_project_info[ $pid ] = false;
 		}
 
-		return self::$_cache_projectinfos[ $pid ];
+		return self::$_cache_project_info[ $pid ];
 	}
 
 	/**
@@ -2360,7 +2419,7 @@ class WPMUDEV_Dashboard_Site {
 		$items = array();
 
 		foreach ( $projects as $item ) {
-			$data = $this->get_project_infos( $item['id'] );
+			$data = $this->get_project_info( $item['id'] );
 
 			if ( $data->is_hidden ) {
 				continue;
@@ -2492,7 +2551,7 @@ class WPMUDEV_Dashboard_Site {
 		if ( $this->is_upfront_theme_installed() && ! $this->is_upfront_installed() ) {
 			// Upfront child theme is installed but not parent theme is missing:
 			// Only display this on the WP Dashboard page.
-			$upfront = $this->get_project_infos( $this->id_upfront );
+			$upfront = $this->get_project_info( $this->id_upfront );
 
 			if ( is_object( $upfront ) ) {
 				do_action(
@@ -2502,7 +2561,7 @@ class WPMUDEV_Dashboard_Site {
 				);
 			}
 		} elseif ( $this->is_upfront_installed() ) {
-			$upfront = $this->get_project_infos( $this->id_upfront );
+			$upfront = $this->get_project_info( $this->id_upfront );
 
 			if ( is_object( $upfront ) && $upfront->has_update ) {
 				// Upfront update is available:
@@ -2598,13 +2657,24 @@ class WPMUDEV_Dashboard_Site {
 		if ( 'remote' == $check || $md5_db != $md5_fs ) {
 			self::$_cache_themeupdates  = false;
 			self::$_cache_pluginupdates = false;
+			self::$_cache_translationupdates = false;
+
 			$this->set_transient(
 				'local_projects',
 				$local_projects,
 				5 * MINUTE_IN_SECONDS
 			);
 			$this->set_option( 'updates_available', false );
-			WPMUDEV_Dashboard::$api->hub_sync( $local_projects );
+
+			//check if is manual check for updates
+			if( isset( $_REQUEST['action'] ) && 'check-updates' === $_REQUEST['action'] ){
+				//force hubsync
+				$full_sync = true;
+			} else {
+				$full_sync = false;
+			}
+
+			WPMUDEV_Dashboard::$api->hub_sync( $local_projects, $full_sync );
 
 			// Recalculate upgrades with current/updated data.
 			WPMUDEV_Dashboard::$api->calculate_upgrades( $local_projects );
@@ -2716,7 +2786,7 @@ class WPMUDEV_Dashboard_Site {
 	 * @since  4.1.0
 	 */
 	public function clear_local_file_cache() {
-		self::$_cache_projectinfos = false;
+		self::$_cache_project_info = false;
 		$this->set_transient( 'local_projects', false );
 	}
 
@@ -3084,6 +3154,16 @@ class WPMUDEV_Dashboard_Site {
 				if ( isset( $value->no_update[ $update['filename'] ] ) ) {
 					unset( $value->no_update[ $update['filename'] ] );
 				}
+
+				//since 4.8.0 also remove our projects from translations first.
+				// if ( ! self::$_cache_translationupdates && ! empty( $value->translations ) ) {
+				// 	foreach ( $value->translations as $key => $translation ) {
+				// 		$slug = dirname( plugin_basename( $update['filename'] ) );
+				// 		if ( isset( $translation['slug'] ) && $slug === $translation['slug'] ) {
+				// 			unset( $value->translations[ $key ] );
+				// 		}
+				// 	}
+				// }
 			}
 
 			// Finally merge available WPMUDEV updates into default WP update data.
@@ -3132,6 +3212,19 @@ class WPMUDEV_Dashboard_Site {
 
 					// Add update information to response.
 					$value->response[ $plugin['filename'] ] = $object;
+				}
+			}
+
+			if ( ! self::$_cache_translationupdates ) {
+				$translation_updates = WPMUDEV_Dashboard::$api->calculate_translation_upgrades();
+				if ( ! empty( $translation_updates ) ) {
+                    if ( isset( $value->translation ) ) {
+                        $value->translations = array_merge( $value->translations, $translation_updates );
+                    } else {
+                        $value->translations = $translation_updates;
+                    }
+
+				    self::$_cache_translationupdates = $value->translations;
 				}
 			}
 
@@ -3329,6 +3422,24 @@ class WPMUDEV_Dashboard_Site {
 	}
 
 	/**
+	 * Can current blog user access the analytics widget.
+	 *
+	 * Translates the minimum role as defined in settings into a level capability, then checks if current user
+	 *  has that capability.
+	 *
+	 * @return bool
+	 */
+
+	public function user_can_edit_branding_image( $query ) {
+		$user = get_current_user_id();
+		if ( is_admin() && ! $this->allowed_user( $user ) ) {
+			// var_dump( $this->get_option( 'whitelabel_branding_image_id' ) ); die()
+			$query['post__not_in'] = array( $this->get_option( 'whitelabel_branding_image_id' ) );
+		}
+		return $query;
+	}
+
+	/**
 	 * Get Metrics displayed on analytics widget
 	 *
 	 * @since 4.7
@@ -3380,9 +3491,18 @@ class WPMUDEV_Dashboard_Site {
 				'expected_type' => 'boolean',
 				'default'       => false,
 			),
+			'branding_enabled_subsite'  => array(
+				'option_name'   => 'branding_enabled_subsite',
+				'expected_type' => 'boolean',
+				'default'       => false,
+			),
 			'branding_image'    => array(
 				'option_name'   => 'whitelabel_branding_image',
 				'expected_type' => 'string',
+				'default'       => '',
+			),
+			'branding_image_id'    => array(
+				'option_name'   => 'whitelabel_branding_image_id',
 				'default'       => '',
 			),
 			'footer_enabled'    => array(
@@ -3454,10 +3574,21 @@ class WPMUDEV_Dashboard_Site {
 			}
 			$default_branding['hide_branding'] = $whitelabel_settings['branding_enabled'];
 			if ( $whitelabel_settings['branding_enabled'] ) {
-				if ( 'hero_image' === $type ) {
-					return $whitelabel_settings['branding_image'];
+
+				if( is_multisite() && ! is_network_admin() && 1 === absint( $whitelabel_settings['branding_enabled_subsite'] ) ){
+					if( has_custom_logo() ){
+						$custom_logo_id = get_theme_mod( 'custom_logo' );
+						$image = wp_get_attachment_image_url( $custom_logo_id, 'full' );
+					}
+
+				} else {
+					$image = $whitelabel_settings['branding_image'];
 				}
-				$default_branding['hero_image'] = $whitelabel_settings['branding_image'];
+				if ( 'hero_image' === $type ) {
+					return $image;
+				}
+
+				$default_branding['hero_image'] = $image;
 			}
 			if ( 'change_footer' === $type ) {
 				return $whitelabel_settings['footer_enabled'];
@@ -3769,8 +3900,8 @@ class WPMUDEV_Dashboard_Site {
 		}
 
 		$pid           = (int) $project_id;
-		$project_infos = $this->get_project_infos( $pid );
-		if ( ! isset( $project_infos->pid ) || $pid !== $project_infos->pid ) {
+		$project_info = $this->get_project_info( $pid );
+		if ( ! isset( $project_info->pid ) || $pid !== $project_info->pid ) {
 			if ( $doing_ajax ) {
 				$this->send_json_error( array( 'message' => __( 'Failed to find plugin id.', 'wpmudev' ) ) );
 			}
@@ -3782,10 +3913,10 @@ class WPMUDEV_Dashboard_Site {
 		$free_filename            = '';
 		$is_free_installed        = false;
 		$is_pro_success_installed = false;
-		if ( ! isset( $project_infos->free_version_slug ) || empty( $project_infos->free_version_slug ) ) {
+		if ( ! isset( $project_info->free_version_slug ) || empty( $project_info->free_version_slug ) ) {
 			$is_free_installed = false;
 		} else {
-			$free_filename = $project_infos->free_version_slug;
+			$free_filename = $project_info->free_version_slug;
 
 			// check if its installed
 			if ( ! function_exists( 'get_plugins' ) ) {
@@ -4227,7 +4358,19 @@ if ( ! function_exists( 'wpmudev_whitelabel_sui_plugins_branding' ) ) {
 
 		$output = '';
 		if ( $whitelabel_settings['branding_enabled'] ) {
-			$image                    = $whitelabel_settings['branding_image'];
+
+			if( is_multisite() && ! is_network_admin() && $whitelabel_settings['branding_enabled_subsite'] ){
+
+				if( has_custom_logo() ){
+					$custom_logo_id = get_theme_mod( 'custom_logo' );
+					$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+					$image = $image[0];
+				}
+
+			} else {
+				$image = $whitelabel_settings['branding_image'];
+			}
+
 			$additional_summary_class = ! empty( $image ) ? 'sui-rebranded' : 'sui-unbranded';
 			ob_start();
 			?>

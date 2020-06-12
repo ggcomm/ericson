@@ -26,31 +26,35 @@ else {
 
 $total_hub_offers = 0;
 $hub_offers_even = NULL;
-foreach ($featured_offers as $featured_offer_key => $offer) {
-	$offer_status = $offer['home_wtpprs_offers_item']->post_status;
-	if($offer_status == 'publish'){
-		$offer_item = array();
-		$offer_item['status'] = $offer_status;
-		$offer_item['id'] = $offer['home_wtpprs_offers_item']->ID;
-		$offer_item['type'] = $offer['home_wtpprs_offers_item']->post_type;
-		if($offer_item['type'] === 'hub_offers'){
-			$offer_item['image'] = get_field('hub_offer_img', $offer_item['id']);
-			$offer_item['title'] = get_field('hub_offer_title', $offer_item['id']);
-			$offer_item['text'] = get_field('hub_offer_txt', $offer_item['id']);
-			$offer_item['btn_txt'] = get_field('hub_offer_btn_txt', $offer_item['id']);
-			$offer_item['btn_lnk'] = get_field('hub_offer_btn_lnk', $offer_item['id']);
+
+if( is_array($featured_offers) ){
+	foreach ($featured_offers as $featured_offer_key => $offer) {
+		$offer_status = $offer['home_wtpprs_offers_item']->post_status;
+		if($offer_status == 'publish'){
+			$offer_item = array();
+			$offer_item['status'] = $offer_status;
+			$offer_item['id'] = $offer['home_wtpprs_offers_item']->ID;
+			$offer_item['type'] = $offer['home_wtpprs_offers_item']->post_type;
+			if($offer_item['type'] === 'hub_offers'){
+				$offer_item['image'] = get_field('hub_offer_img', $offer_item['id']);
+				$offer_item['title'] = get_field('hub_offer_title', $offer_item['id']);
+				$offer_item['text'] = get_field('hub_offer_txt', $offer_item['id']);
+				$offer_item['btn_txt'] = get_field('hub_offer_btn_txt', $offer_item['id']);
+				$offer_item['btn_lnk'] = get_field('hub_offer_btn_lnk', $offer_item['id']);
+			}
+			if($offer_item['type'] === 'white_papers'){
+				$offer_item['image'] = get_field('wtppr_offer_img', $offer_item['id']);
+				$offer_item['title'] = get_field('wtppr_offer_title', $offer_item['id']);
+				$offer_item['text'] = get_field('wtppr_offer_txt', $offer_item['id']);
+				$offer_item['btn_txt'] = get_field('wtppr_offer_btn_txt', $offer_item['id']);
+				$offer_item['btn_lnk'] = get_field('wtppr_offer_btn_lnk', $offer_item['id']);
+			}
+			array_push($featured_offers_items, $offer_item);
+			$total_hub_offers++;
 		}
-		if($offer_item['type'] === 'white_papers'){
-			$offer_item['image'] = get_field('wtppr_offer_img', $offer_item['id']);
-			$offer_item['title'] = get_field('wtppr_offer_title', $offer_item['id']);
-			$offer_item['text'] = get_field('wtppr_offer_txt', $offer_item['id']);
-			$offer_item['btn_txt'] = get_field('wtppr_offer_btn_txt', $offer_item['id']);
-			$offer_item['btn_lnk'] = get_field('wtppr_offer_btn_lnk', $offer_item['id']);
-		}
-		array_push($featured_offers_items, $offer_item);
-		$total_hub_offers++;
 	}
 }
+
 if($total_hub_offers % 2 === 0) {
 	$hub_offers_even = 1;
 }
@@ -305,52 +309,19 @@ else {
 		</section>
 	<?php endif; ?>
 
-	<?php if(sizeof($featured_offers) > 0): ?>
-		<section class="hub-offers-wrapper">
-			<h2 class="sr-only">Case Studies & White Papers</h2>
-			<div class="container">
-				<div class="row">
-					<?php $i_hub = 0; ?>
-					<?php foreach ($featured_offers_items as $offer_key => $offer):
-						$i_hub++;
-					?>
+	<?php if( is_array( $featured_offers ) ): ?>
+		<?php if( sizeof($featured_offers) > 0): ?>
+			<section class="hub-offers-wrapper">
+				<h2 class="sr-only">Case Studies & White Papers</h2>
+				<div class="container">
+					<div class="row">
+						<?php $i_hub = 0; ?>
+						<?php foreach ($featured_offers_items as $offer_key => $offer):
+							$i_hub++;
+						?>
 
-						<?php if((int)$i_hub === (int)$total_hub_offers && $hub_offers_even === 0 && $offer['status'] == 'publish'): ?>
-							<div class="col-md-6 offset-md-3 hub-offer">
-								<div class="row">
-									<?php if(isset($offer['image'])): ?>
-										<div class="col hub-offer-img">
-											<img <?php if(isset($offer['title'])): ?>alt="<?php print $offer['title']; ?>"<?php endif; ?> src="<?php print $offer['image']; ?>">
-										</div>
-									<?php endif; ?>
-									<div class="col">
-										<?php if(isset($offer['title'])): ?>
-											<div class="row">
-												<div class="col hub-offer-title">
-													<h3><?php print $offer['title']; ?></h3>
-												</div>
-											</div>
-										<?php endif; ?>
-										<?php if(isset($offer['text'])): ?>
-											<div class="row">
-												<div class="col hub-offer-text">
-													<?php print $offer['text']; ?>
-												</div>
-											</div>
-										<?php endif; ?>
-										<?php if(isset($offer['btn_txt']) && isset($offer['btn_lnk'])): ?>
-											<div class="row">
-												<div class="col hub-offer-button">
-													<a href="<?php print $offer['btn_lnk']; ?>" role="button" class="btn btn-default"><?php print $offer['btn_txt']; ?></a>
-												</div>
-											</div>
-										<?php endif; ?>
-									</div>
-								</div>
-							</div>
-						<?php else: ?>
-							<?php if($offer['status'] == 'publish'): ?>
-								<div class="col-md-6 hub-offer <?php if($i_hub  % 2 !== 0): ?>left-featured-offer<?php endif; ?>">
+							<?php if((int)$i_hub === (int)$total_hub_offers && $hub_offers_even === 0 && $offer['status'] == 'publish'): ?>
+								<div class="col-md-6 offset-md-3 hub-offer">
 									<div class="row">
 										<?php if(isset($offer['image'])): ?>
 											<div class="col hub-offer-img">
@@ -382,13 +353,48 @@ else {
 										</div>
 									</div>
 								</div>
+							<?php else: ?>
+								<?php if($offer['status'] == 'publish'): ?>
+									<div class="col-md-6 hub-offer <?php if($i_hub  % 2 !== 0): ?>left-featured-offer<?php endif; ?>">
+										<div class="row">
+											<?php if(isset($offer['image'])): ?>
+												<div class="col hub-offer-img">
+													<img <?php if(isset($offer['title'])): ?>alt="<?php print $offer['title']; ?>"<?php endif; ?> src="<?php print $offer['image']; ?>">
+												</div>
+											<?php endif; ?>
+											<div class="col">
+												<?php if(isset($offer['title'])): ?>
+													<div class="row">
+														<div class="col hub-offer-title">
+															<h3><?php print $offer['title']; ?></h3>
+														</div>
+													</div>
+												<?php endif; ?>
+												<?php if(isset($offer['text'])): ?>
+													<div class="row">
+														<div class="col hub-offer-text">
+															<?php print $offer['text']; ?>
+														</div>
+													</div>
+												<?php endif; ?>
+												<?php if(isset($offer['btn_txt']) && isset($offer['btn_lnk'])): ?>
+													<div class="row">
+														<div class="col hub-offer-button">
+															<a href="<?php print $offer['btn_lnk']; ?>" role="button" class="btn btn-default"><?php print $offer['btn_txt']; ?></a>
+														</div>
+													</div>
+												<?php endif; ?>
+											</div>
+										</div>
+									</div>
+								<?php endif; ?>
 							<?php endif; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
+					</div>
 				</div>
-			</div>
-		</section>
-	<?php endif; ?>
+			</section>
+		<?php endif; ?>
+	<?php endif;?>
 
 	<?php if( get_field('home_blog_section', $page_id)): ?>
 		<?php $home_blog = get_field('home_blog_section', $page_id); ?>

@@ -90,7 +90,7 @@ final class MonsterInsights_Report_eCommerce extends MonsterInsights_Report {
 	public function add_ecommerce_settings_link( $data ) {
 		$ecommerce_link         = add_query_arg( array( 'page' => 'monsterinsights_settings' ), admin_url( 'admin.php' ) );
 		$ecommerce_link        .= '#/ecommerce';
-		$data['data']['footer'] = '<a href="' . esc_url( $ecommerce_link ) . '">' . esc_html__( 'Enable Enhanced eCommerce', 'ga-premium' ) . '</a>';
+		$data['data']['footer'] = $ecommerce_link;
 
 		return $data;
 	}

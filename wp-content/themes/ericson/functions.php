@@ -356,8 +356,10 @@ function ericson_create_post_type() {
 	register_post_type( 'brochures',
 		array(
 			'labels' => array(
-				'name' => __( 'Brochures' ),
-				'singular_name' => __( 'Brochures' )
+				'name' => __( 'Industry Essentials' ),
+				'singular_name' => __( 'Industry Essentials' ),
+				'menu_label' => __( 'Industry Essentials' ),
+				
 			),
 			'public' => true,
 			'has_archive' => false,

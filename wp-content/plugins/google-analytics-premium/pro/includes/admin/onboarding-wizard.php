@@ -110,7 +110,12 @@ class MonsterInsights_Onboarding_Wizard_Pro {
 				'monsterinsights-vue-common',
 			), monsterinsights_get_asset_version(), true );
 		} else {
-			wp_register_script( 'monsterinsights-vue-script', MONSTERINSIGHTS_LOCAL_WIZARD_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_enqueue_script( 'monsterinsights-vue-vendors', MONSTERINSIGHTS_LOCAL_VENDORS_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_enqueue_script( 'monsterinsights-vue-common', MONSTERINSIGHTS_LOCAL_COMMON_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_register_script( 'monsterinsights-vue-script', MONSTERINSIGHTS_LOCAL_WIZARD_JS_URL, array(
+				'monsterinsights-vue-vendors',
+				'monsterinsights-vue-common',
+			), monsterinsights_get_asset_version(), true );
 		}
 		wp_enqueue_script( 'monsterinsights-vue-script' );
 
@@ -161,6 +166,7 @@ class MonsterInsights_Onboarding_Wizard_Pro {
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php esc_html_e( 'MonsterInsights &rsaquo; Onboarding Wizard', 'ga-premium' ); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
+			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
 		</head>
 		<body class="monsterinsights-onboarding">

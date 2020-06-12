@@ -142,11 +142,11 @@ class Minify_HTML {
 			.'|canvas|caption|center|col(?:group)?|dd|dir|div|dl|dt|fieldset|figcaption|figure|footer|form'
 			.'|frame(?:set)?|h[1-6]|head|header|hgroup|hr|html|legend|li|link|main|map|menu|meta|nav'
 			.'|ol|opt(?:group|ion)|output|p|param|section|t(?:able|body|head|d|h||r|foot|itle)'
-			.'|ul|video)\\b[^>]*>)/iu', '$1', $this->_html);
+			.'|ul|video)\\b[^>]*>)/i', '$1', $this->_html);
 
 		// remove whitespaces outside of all elements
 		$this->_html = preg_replace(
-			'/>((\\s)(?:\\s*))?([^<]+?)((\\s)(?:\\s*))?</u'
+			'/>((\\s)(?:\\s*))?([^<]+?)((\\s)(?:\\s*))?</'
 			,'>$2$3$5<'
 			,$this->_html);
 
@@ -158,7 +158,7 @@ class Minify_HTML {
 
 		// remove trailing slash from void elements
 		$this->_html = preg_replace(
-			'~<(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)([^>]*?)\\s*[/]?>~i'
+			'~<(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)(([^\'">]|\"[^\"]*\"|\'[^\']*\'|)*?)\\s*[/]?>~i'
 			,'<$1$2>'
 			,$this->_html);
 
@@ -343,12 +343,32 @@ class Minify_HTML {
 	}
 
 	protected function _removeAttributeQuotes($m) {
-		$m[2] = preg_replace( '/([a-z0-9]=)\'([^"\'\\s=]+)\'(\\s(?!\\/)|>)/i', '$1$2$3', $m[2] );
-		$m[2] = preg_replace( '/([a-z0-9]=)"([^"\'\\s=]+)"(\\s(?!\\/)|>)/i', '$1$2$3', $m[2] );
-		$m[2] = preg_replace( '/([a-z0-9]=)\'([^\'\\s=]+)\'\\//i', '$1$2 /', $m[2] );
-		$m[2] = preg_replace( '/([a-z0-9]=)"([^"\\s=]+)"\\//i', '$1$2 /', $m[2] );
-		$m[2] = preg_replace( '/([a-z0-9])=\'\'/i', '$1', $m[2] );
-		$m[2] = preg_replace( '/([a-z0-9])=""/i', '$1', $m[2] );
+		$m[2] = preg_replace_callback( '~([a-z0-9\\-])=(?<quote>[\'"])([^"\'\\s=]*)\k<quote>(\\s|>|/>)~i',
+			array( $this, '_removeAttributeQuotesCallback'), $m[2] );
+
 		return $m[1] . $m[2];
+	}
+
+
+
+	public function _removeAttributeQuotesCallback( $m ) {
+		// empty tag values like <div data-value=""> to <div data-value
+		if ( $m[3] === '' ) {
+			return $m[1] . $m[4];
+		}
+
+		// 1. <a href=bla/>hi</a> is sometimes (XHTML? HTML5 specs doesnt allow that)
+		// parsed as <a href=bla></a>hi</a> by browsers
+		// avoid that by turning it to <a href=bla/ >hi</a>
+
+		// 2. auto-closing tags without space at the end e.g. <div data-value="aa"/>
+		// should have space after value <div data-value=aa />
+		// otherwise some browsers assume data-value="aa/"
+		if ( /* 1 */ $m[4] == '/>' ||
+			/* 2 */ ( $m[4] == '>' && substr( $m[3], -1, 1 ) == '/' ) ) {
+			return $m[1] . '=' . $m[3] . ' ' . $m[4];
+		}
+
+		return $m[1] . '=' . $m[3] . $m[4];
 	}
 }

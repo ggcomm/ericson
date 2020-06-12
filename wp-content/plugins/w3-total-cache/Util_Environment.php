@@ -182,9 +182,11 @@ class Util_Environment {
 				$result = true;
 			} else {
 				$blog_data = Util_WpmuBlogmap::get_current_blog_data();
-				if ( is_null( $blog_data ) )
+				if ( is_null( $blog_data ) ) {
 					$result = true;
-				$result = ( $blog_data[0] == 'm' );
+				} else {
+					$result = ( $blog_data[0] == 'm' );
+				}
 			}
 		}
 
@@ -332,10 +334,11 @@ class Util_Environment {
 
 
 		$blog_data = Util_WpmuBlogmap::get_current_blog_data();
-		if ( !is_null( $blog_data ) )
+		if ( !is_null( $blog_data ) ) {
 			$w3_current_blog_id = substr( $blog_data, 1 );
-		else
+		} else {
 			$w3_current_blog_id = 0;
+		}
 
 		return $w3_current_blog_id;
 	}
@@ -1038,9 +1041,9 @@ class Util_Environment {
 			return $post_ID;
 		} elseif ( $comment_post_ID ) {
 			return $comment_post_ID;
-		} elseif ( ( is_single() || is_page() ) && is_array( $posts ) ) {
+		} elseif ( ( is_single() || is_page() ) && is_array( $posts ) && isset( $posts[0]->ID ) ) {
 			return $posts[0]->ID;
-		} elseif ( is_object( $posts ) && property_exists( $posts, 'ID' ) ) {
+		} elseif ( isset( $posts->ID ) ) {
 			return $posts->ID;
 		} elseif ( isset( $_REQUEST['p'] ) ) {
 			return (integer) $_REQUEST['p'];

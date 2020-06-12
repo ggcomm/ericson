@@ -66,7 +66,7 @@ final class MonsterInsights_Report_RealTime extends MonsterInsights_Report {
 			foreach ( $data['data']['realtime']['countries'] as $country_key => $country_data ) {
 				if ( ! empty( $countries[ $country_data['country'] ] ) ) {
 					$data['data']['realtime']['countries'][ $country_key ]['iso']  = $countries[ $country_data['country'] ];
-					$data['data']['realtime']['countries'][ $country_key ]['name'] = $countries_translated[ $data['data']['realtime']['countries'][ $country_key ]['iso'] ];
+					$data['data']['realtime']['countries'][ $country_key ]['name'] = $countries_translated[ $countries[ $country_data['country'] ] ];
 				} else {
 					$data['data']['realtime']['countries'][ $country_key ]['iso']  = '';
 					$data['data']['realtime']['countries'][ $country_key ]['name'] = $country_data['country'];
@@ -75,7 +75,7 @@ final class MonsterInsights_Report_RealTime extends MonsterInsights_Report {
 			foreach ( $data['data']['realtime']['cities'] as $city_key => $city_data ) {
 				if ( ! empty( $countries[ $city_data['country'] ] ) ) {
 					$data['data']['realtime']['cities'][ $city_key ]['iso']  = $countries[ $city_data['country'] ];
-					$data['data']['realtime']['cities'][ $city_key ]['name'] = $countries_translated[ $data['data']['realtime']['countries'][ $city_key ]['iso'] ];
+					$data['data']['realtime']['cities'][ $city_key ]['name'] = $countries_translated[ $countries[ $city_data['country'] ] ];
 				} else {
 					$data['data']['realtime']['cities'][ $city_key ]['iso']  = '';
 					$data['data']['realtime']['cities'][ $city_key ]['name'] = $city_data['country'];
@@ -94,5 +94,9 @@ final class MonsterInsights_Report_RealTime extends MonsterInsights_Report {
 		}
 
 		return $data;
+	}
+
+	public function default_end_date() {
+		return date( 'Y-m-d' );
 	}
 }

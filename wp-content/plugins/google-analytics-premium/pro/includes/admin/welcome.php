@@ -76,7 +76,7 @@ class MonsterInsights_Welcome_Pro {
 	public function maybe_redirect() {
 
 		// Bail if no activation redirect.
-		if ( ! get_transient( '_monsterinsights_activation_redirect' ) ) {
+		if ( ! get_transient( '_monsterinsights_activation_redirect' ) || isset( $_GET['monsterinsights-redirect'] ) ) {
 			return;
 		}
 
@@ -90,7 +90,7 @@ class MonsterInsights_Welcome_Pro {
 
 		$upgrade = get_option( 'monsterinsights_version_upgraded_from', false );
 		if ( apply_filters( 'monsterinsights_enable_onboarding_wizard', false === $upgrade ) ) {
-			$redirect = admin_url( 'index.php?page=monsterinsights-getting-started' );
+			$redirect = admin_url( 'index.php?page=monsterinsights-getting-started&monsterinsights-redirect=1' );
 			wp_safe_redirect( $redirect );
 			exit;
 		}
@@ -120,7 +120,12 @@ class MonsterInsights_Welcome_Pro {
 				'monsterinsights-vue-welcome-common',
 			), monsterinsights_get_asset_version(), true );
 		} else {
-			wp_register_script( 'monsterinsights-vue-welcome-script', MONSTERINSIGHTS_LOCAL_WIZARD_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_enqueue_script( 'monsterinsights-vue-welcome-vendors', MONSTERINSIGHTS_LOCAL_VENDORS_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_enqueue_script( 'monsterinsights-vue-welcome-common', MONSTERINSIGHTS_LOCAL_COMMON_JS_URL, array(), monsterinsights_get_asset_version(), true );
+			wp_register_script( 'monsterinsights-vue-welcome-script', MONSTERINSIGHTS_LOCAL_WIZARD_JS_URL, array(
+				'monsterinsights-vue-welcome-vendors',
+				'monsterinsights-vue-welcome-common',
+			), monsterinsights_get_asset_version(), true );
 		}
 		wp_enqueue_script( 'monsterinsights-vue-welcome-script' );
 
@@ -153,6 +158,7 @@ class MonsterInsights_Welcome_Pro {
 				),
 				'plugin_version'       => MONSTERINSIGHTS_VERSION,
 				'first_name'           => ! empty( $user_data->first_name ) ? $user_data->first_name : '',
+				'exit_url'             => add_query_arg( 'page', 'monsterinsights_settings', admin_url( 'admin.php' ) ),
 			)
 		);
 	}
@@ -163,8 +169,26 @@ class MonsterInsights_Welcome_Pro {
 	public function welcome_screen() {
 		do_action( 'monsterinsights_head' );
 
-		monsterinsights_settings_error_page( 'monsterinsights-welcome' );
+		monsterinsights_settings_error_page( $this->get_screen_id() );
 		monsterinsights_settings_inline_js();
+	}
+
+	/**
+	 * Get the screen id to control which Vue component is loaded.
+	 *
+	 * @return string
+	 */
+	public function get_screen_id() {
+		$screen_id = 'monsterinsights-welcome';
+
+		if ( defined( 'EXACTMETRICS_VERSION' ) && function_exists( 'ExactMetrics' ) ) {
+			$migrated = monsterinsights_get_option( 'gadwp_migrated', 0 );
+			if ( time() - $migrated < HOUR_IN_SECONDS ) {
+				$screen_id = 'monsterinsights-migration-wizard';
+			}
+		}
+
+		return $screen_id;
 	}
 }
 

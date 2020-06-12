@@ -10,6 +10,8 @@ class CapsmanHandler
 	function processAdminGeneral( $post ) {
 		global $wp_roles;
 		
+		do_action('publishpress-caps_process_update');
+
 		// Create a new role.
 		if ( ! empty($post['CreateRole']) ) {
 			if ( $newrole = $this->createRole($post['create-name']) ) {
@@ -22,6 +24,19 @@ class CapsmanHandler
 					ak_admin_error(__('Error: Failed creating the new role.', 'capsman-enhanced'));
 			}
 
+		// rename role
+		} elseif (!empty($post['RenameRole']) && !empty($post['rename-name'])) {
+			$current = get_role($post['current']);
+			$new_title = sanitize_text_field($post['rename-name']);
+
+			if ($current && isset($wp_roles->roles[$current->name]) && $new_title) {
+				$old_title = $wp_roles->roles[$current->name]['name'];
+				$wp_roles->roles[$current->name]['name'] = $new_title;
+				update_option($wp_roles->role_key, $wp_roles->roles);
+
+				ak_admin_notify(sprintf(__('Role "%s" (id %s) renamed to "%s"', 'capsman-enhanced'), $old_title, strtolower($current->name), $new_title));
+				$this->cm->current = $current->name;
+			}
 		// Copy current role to a new one.
 		} elseif ( ! empty($post['CopyRole']) ) {
 			$current = get_role($post['current']);
@@ -69,7 +84,6 @@ class CapsmanHandler
 
 			if ( $newname = $this->createNewName($post['capability-name']) ) {
 				$role->add_cap($newname['name']);
-				$this->cm->message = __('New capability added to role.');
 
 				// for bbPress < 2.2, need to log customization of roles following bbPress activation
 				$plugins = ( function_exists( 'bbp_get_version' ) && version_compare( bbp_get_version(), '2.2', '<' ) ) ? array( 'bbpress.php' ) : array();	// back compat
@@ -82,8 +96,12 @@ class CapsmanHandler
 				
 				global $wpdb;
 				$wpdb->query( "UPDATE $wpdb->options SET autoload = 'no' WHERE option_name = 'pp_customized_roles'" );
+
+				$url = admin_url('admin.php?page=capsman&role=' . $post['role'] . '&added=1');
+				wp_redirect($url);
+				exit;
 			} else {
-				$this->cm->message = __('Incorrect capability name.');
+				ak_admin_notify(__('Incorrect capability name.'));
 			}
 			
 		} elseif ( ! empty($post['update_filtered_types']) || ! empty($post['update_filtered_taxonomies']) || ! empty($post['update_detailed_taxonomies']) ) {
@@ -93,15 +111,18 @@ class CapsmanHandler
 			//	ak_admin_error(__('Error saving capability settings.', 'capsman-enhanced'));
 			//}
 		} else {
-		    // TODO: Implement exceptions. This must be a fatal error.
-		    ak_admin_error(__('Bad form received.', 'capsman-enhanced'));
+			if (!apply_filters('publishpress-caps_submission_ok', false)) {
+				ak_admin_error(__('Bad form received.', 'capsman-enhanced'));
+			}
 		}
 
 		if ( ! empty($newrole) && defined('PRESSPERMIT_ACTIVE') ) {
 			if ( ( ! empty($post['CreateRole']) && ! empty( $_REQUEST['new_role_pp_only'] ) ) || ( ! empty($post['CopyRole']) && ! empty( $_REQUEST['copy_role_pp_only'] ) ) ) {
-				$pp_only = (array) capsman_get_pp_option( 'supplemental_role_defs' );
+				$pp_only = (array) pp_capabilities_get_permissions_option( 'supplemental_role_defs' );
 				$pp_only[]= $newrole;
-				pp_update_option( 'supplemental_role_defs', $pp_only );
+
+				pp_capabilities_update_permissions_option('supplemental_role_defs', $pp_only);
+				
 				_cme_pp_default_pattern_role( $newrole );
 				pp_refresh_options();
 			}
@@ -127,14 +148,21 @@ class CapsmanHandler
 		if ( preg_match($pattern, $name) ) {
 			$roles = ak_get_roles();
 
-			$name = strtolower($name);
 			$name = str_replace(' ', '_', $name);
 			if ( in_array($name, $roles) || array_key_exists($name, $this->cm->capabilities) ) {
 				return false;	// Already a role or capability with this name.
 			}
 
 			$display = explode('_', $name);
-			$display = array_map('ucfirst', $display);
+			$name = strtolower($name);
+
+			// Apply ucfirst proper caps unless capitalization already provided
+			foreach($display as $i => $word) {
+				if ($word === strtolower($word)) {
+					$display[$i] = ucfirst($word);
+				}
+			}
+
 			$display = implode(' ', $display);
 
 			return compact('name', 'display');
@@ -177,7 +205,7 @@ class CapsmanHandler
 	private function saveRoleCapabilities( $role_name, $caps, $level ) {
 		$this->cm->generateNames();
 		$role = get_role($role_name);
-		
+
 		// workaround to ensure db storage of customizations to bbp dynamic roles
 		$role->name = $role_name;
 		
@@ -296,6 +324,8 @@ class CapsmanHandler
 				( method_exists( $wp_roles, 'for_site' ) ) ? $wp_roles->for_site() : $wp_roles->reinit();
 			}
 		} // endif multisite installation with super admin editing a main site role
+
+		pp_capabilities_autobackup();
 	}
 	
 

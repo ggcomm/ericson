@@ -6,7 +6,7 @@
  * Author:              MonsterInsights
  * Author URI:          https://www.monsterinsights.com/?utm_source=proplugin&utm_medium=pluginheader&utm_campaign=authoruri&utm_content=7%2E0%2E0
  *
- * Version:             7.9.1
+ * Version:             7.10.5
  * Requires at least:   3.8.0
  *
  * License:             GPL v3
@@ -68,7 +68,7 @@ final class MonsterInsights {
 	 * @access public
 	 * @var string $version Plugin version.
 	 */
-	public $version = '7.9.1';
+	public $version = '7.10.5';
 
 	/**
 	 * The name of the plugin.
@@ -215,13 +215,12 @@ final class MonsterInsights {
 
 			// This does the version to version background upgrade routines and initial install
 			$mi_version = get_option( 'monsterinsights_current_version', '5.5.3' );
-			if ( version_compare( $mi_version, '7.9.0', '<' ) ) {
+			if ( version_compare( $mi_version, '7.10.0', '<' ) ) {
 				monsterinsights_call_install_and_upgrade();
 			}
 
 			if ( is_admin() ) {
-				new AM_Notification( 'mi', self::$instance->version );
-				new AM_Deactivation_Survey( 'MonsterInsights Pro', basename( dirname( __FILE__ ) ) );
+				new AM_Deactivation_Survey( 'MonsterInsights Pro', 'monsterinsights-pro' );
 			}
 
 			// Load the plugin textdomain.
@@ -553,7 +552,6 @@ final class MonsterInsights {
 		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 
 			// Lite and Pro files
-				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'assets/lib/pandora/class-am-notification.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'assets/lib/pandora/class-am-deactivation-survey.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/ajax.php';
 				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/admin.php';
@@ -619,7 +617,7 @@ final class MonsterInsights {
 			'plugin_slug' => $this->plugin_slug,
 			'plugin_path' => plugin_basename( __FILE__ ),
 			'plugin_url'  => trailingslashit( WP_PLUGIN_URL ) . $this->plugin_slug,
-			'remote_url'  => 'https://www.monsterinsights.com/',
+			'remote_url'  => apply_filters( 'monsterinsights_licensing_update_url', 'https://www.monsterinsights.com/' ),
 			'version'     => $this->version,
 			'key'         => $key,
 		);

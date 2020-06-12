@@ -24,6 +24,13 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 	
+	$("#publishpress_caps_form").bind("keypress", function(e) {
+		if (e.keyCode == 13) {
+		   $(document.activeElement).parent().find('input[type="submit"]').first().click();
+		   return false;
+		}
+	});
+
 	$('input.cme-check-all').click( function(e) {
 		$(this).closest('table').find('input[type="checkbox"][disabled!="disabled"]:visible').prop('checked', $(this).is(":checked") );
 	});
@@ -39,10 +46,10 @@ jQuery(document).ready( function($) {
 	});
 	
 	$('table.cme-typecaps a.neg-type-caps').click( function(e) {
-		$(this).closest('tr').find('td[class!="cap-neg"]').filter('td[class!="cap-unreg"]').each( function(e) {
+		$(this).closest('tr').find('td[class!="cap-neg"]').filter('td[class!="cap-unreg"]').each( function() {
 			$(this).addClass('cap-neg');
 
-			var cap_name_attr = $(this).parent().find('input[type="checkbox"]').attr('name');
+			var cap_name_attr = $(this).find('input[type="checkbox"]').attr('name');
 			$(this).append('<input type="hidden" class="cme-negation-input" name="'+cap_name_attr+'" value="" />');
 		});
 		

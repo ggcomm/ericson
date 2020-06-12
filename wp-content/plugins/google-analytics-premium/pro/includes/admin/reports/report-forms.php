@@ -47,10 +47,6 @@ final class MonsterInsights_Report_Forms extends MonsterInsights_Report {
 			return __( 'Please %s the MonsterInsights Forms addon to view Forms reports.', 'ga-premium' );
 		}
 
-		if ( version_compare( MonsterInsights_Forms::get_instance()->version, '1.1.0', '<' ) ) {
-			return __( 'Please update the forms addon.', 'ga-premium' );
-		}
-
 		return $error;
 	}
 
